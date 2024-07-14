@@ -6,7 +6,7 @@ const Stats = () => {
         <div className="">
       <div className="max-w-5xl px-4 xl:px-0 py-10 mx-auto">
         <div className="border border-neutral-800 rounded-xl">
-          <div className="p-4 lg:p-8 bg-gradient-to-bl from-lime-400 via-purple-500 to-white rounded-xl">
+          <div className="p-4 lg:p-8 bg-gradient-to-bl from-orange-400 bg-black rounded-xl">
             <div className="grid grid-cols-1 sm:grid-cols-3 items-center gap-y-20 gap-x-12">
               <div className="relative text-center first:before:hidden before:absolute before:-top-full sm:before:top-1/2 before:start-1/2 sm:before:-start-6 before:w-px before:h-20 before:bg-neutral-800 before:rotate-[60deg] sm:before:rotate-12 before:transform sm:before:-translate-y-1/2 before:-translate-x-1/2 sm:before:-translate-x-0 before:mt-3.5 sm:before:mt-0">
                 <svg className="flex-shrink-0 size-6 sm:size-8 text-[#ff0] mx-auto" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -17,8 +17,8 @@ const Stats = () => {
                   <path d="M3 4h8" />
                 </svg>
                 <div className="mt-3 sm:mt-5">
-                  <h3 className="text-lg sm:text-3xl font-semibold text-gray-200">2,000+</h3>
-                  <p className="mt-1 text-sm sm:text-base text-white">Preline partners</p>
+                  <h3 className="text-lg sm:text-3xl font-semibold text-gray-200">15+</h3>
+                  <p className="mt-1 text-sm sm:text-base text-white">Clients Served</p>
                 </div>
               </div>
 
@@ -29,8 +29,8 @@ const Stats = () => {
                   <img className="relative flex-shrink-0 size-8 rounded-full border-[3px] border-neutral-800" src="https://images.unsplash.com/photo-1679412330254-90cb240038c5?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=facearea&amp;facepad=2.5&amp;w=320&amp;h=320&amp;q=80" alt="Image Description"/>
                 </div>
                 <div className="mt-3 sm:mt-5">
-                  <h3 className="text-lg sm:text-3xl font-semibold text-gray-200">85%</h3>
-                  <p className="mt-1 text-sm sm:text-base text-white">Happy customers</p>
+                  <h3 className="text-lg sm:text-3xl font-semibold text-gray-200">50K+</h3>
+                  <p className="mt-1 text-sm sm:text-base text-white">Leads Generated</p>
                 </div>
               </div>
 
@@ -43,8 +43,8 @@ const Stats = () => {
                   <circle cx="6" cy="5" r="3" />
                 </svg>
                 <div className="mt-3 sm:mt-5">
-                  <h3 className="text-lg sm:text-3xl font-semibold text-gray-200">$55M+</h3>
-                  <p className="mt-1 text-sm sm:text-base text-white">Ads managed yearly</p>
+                  <h3 className="text-lg sm:text-3xl font-semibold text-gray-200">2Lakh+</h3>
+                  <p className="mt-1 text-sm sm:text-base text-white">Monthly Ads Campaign</p>
                 </div>
               </div>
             </div>

@@ -6,23 +6,17 @@ import Services from "@/components/homepage/Services";
 import Testimonials from "@/components/homepage/Testimonials";
 import Stats from "@/components/homepage/Stats";
 import Approach from "@/components/homepage/Approach";
-import Contact from "@/components/homepage/Contact";
-import Footer from "@/components/homepage/Footer";
-import Header2 from "@/components/homepage/Header2";
+import Header3 from "@/components/homepage/Header3";
 
 export default function Home() {
   return (
     <main>
-      {/* <Header/> */}
-      <Header2/>
-      {/* <Hero/> */}
-      <Clients/>
+      <Header3/>
       <Services/>
       <Testimonials/>
       <Stats/>
       <Approach/>
-      <Contact/>
-      <Footer/>
+      {/* <Contact/> */}
     </main>
   );
 }
