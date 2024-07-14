@@ -154,8 +154,8 @@ const Contact = () => {
                 <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
               </svg>
               <div className="grow">
-                <h4 className="text-gray-900 font-semibold">We're hiring</h4>
-                <p className="mt-1 text-neutral-400">We're thrilled to announce that we're expanding our team and looking for talented individuals like you to join us.</p>
+                <h4 className="text-gray-900 font-semibold">We&apos;re hiring</h4>
+                <p className="mt-1 text-neutral-400">We&apos;re thrilled to announce that we&apos;re expanding our team and looking for talented individuals like you to join us.</p>
                 <p className="mt-2">
                   <a className="group inline-flex items-center gap-x-2 font-medium text-sm text-[#ff0] decoration-2 hover:underline focus:outline-none focus:underline" href="#">
                     Job openings

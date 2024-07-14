@@ -29,7 +29,7 @@ const Services = () => {
               <div className="mt-5">
                 <p className="font-semibold text-5xl text-gray-900">43%</p>
                 <h3 className="mt-5 font-medium text-lg text-gray-900">Enhancement in Customer Engagement</h3>
-                <p className="mt-1 text-neutral-400">With the aim of optimizing customer interactions and boosting brand loyalty, the team at Preline leveraged Mailchimp's powerful tools and expertise to deliver exceptional results.</p>
+                <p className="mt-1 text-neutral-400">With the aim of optimizing customer interactions and boosting brand loyalty, the team at Preline leveraged Mailchimp&apos;s powerful tools and expertise to deliver exceptional results.</p>
               </div>
             </div>
             <p className="mt-auto">
@@ -50,7 +50,7 @@ const Services = () => {
               <div className="mt-5">
                 <p className="font-semibold text-5xl text-gray-900">20%</p>
                 <h3 className="mt-5 font-medium text-lg text-gray-900">Rise in E-commerce</h3>
-                <p className="mt-1 text-neutral-400">In collaboration with Shopify, Preline embarked on a mission to revolutionize the e-commerce experience for a fictitious fashion brand, "StyleAura.".</p>
+                <p className="mt-1 text-neutral-400">In collaboration with Shopify, Preline embarked on a mission to revolutionize the e-commerce experience for a fictitious fashion brand, &apos;StyleAura.&apos;.</p>
               </div>
             </div>
             <p className="mt-auto">
@@ -72,7 +72,7 @@ const Services = () => {
               <div className="mt-5">
                 <p className="font-semibold text-5xl text-gray-900">12%</p>
                 <h3 className="mt-5 font-medium text-lg text-gray-900">Streamlining Development</h3>
-                <p className="mt-1 text-neutral-400"> With the goal of accelerating project delivery and enhancing collaboration among development teams, Preline leveraged GitLab's comprehensive suite of tools and Preline's expertise in digital product development.</p>
+                <p className="mt-1 text-neutral-400"> With the goal of accelerating project delivery and enhancing collaboration among development teams, Preline leveraged GitLab&apos;s comprehensive suite of tools and Preline&apos;s expertise in digital product development.</p>
               </div>
             </div>
             <p className="mt-auto">
