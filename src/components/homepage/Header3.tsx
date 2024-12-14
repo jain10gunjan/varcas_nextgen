@@ -348,7 +348,7 @@ const Header3 = () => {
           Individuals and Companies That Trust VarCas NexGen
         </div>
 
-        <div className="flex flex-wrap gap-x-6 sm:gap-x-12 lg:gap-x-24">
+        <div className="flex flex-wrap gap-x-4 sm:gap-x-12  lg:gap-x-20">
           <img
             className="md:w-48 w-24"
             src={`./trineenterprise-removebg-preview.png`}
@@ -361,6 +361,11 @@ const Header3 = () => {
             className="md:w-48 w-24"
             src={`./DomaFabricators-removebg-preview.png`}
           />
+          <img className="md:w-48 w-24" src={`./raslake.png`} />
+          <img className="md:w-48 w-24" src={`./remaxboiler.png`} />
+          <img className="md:w-48 w-24" src={`./thomsonboiler.png`} />
+          <img className="md:w-48 w-24" src={`./easymedico_cover.png`} />
+          <img className="md:w-48 w-24" src={`./Logobankpan.png`} />
         </div>
       </div>
       <Toaster />

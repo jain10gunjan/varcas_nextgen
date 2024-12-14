@@ -1,123 +1,150 @@
-"use client"
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // For mobile menu
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // For dropdown
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggleMenu = () => setIsOpen(!isOpen);
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   return (
-    <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full py-0 fixed top-0 bg-white">
-      <nav
-        className="relative max-w-7xl w-full flex flex-wrap md:grid md:grid-cols-12 basis-full items-center px-4 md:px-6 md:px-8 mx-auto"
-        aria-label="Global"
-      >
-        <div className="md:col-span-3">
-          {/* Logo */}
-          <a
-            className="flex-none rounded-xl text-xl inline-block font-semibold focus:outline-none focus:opacity-80"
-            href="/"
-            aria-label="Preline"
-          >
-            <img src='./mm.png' className='w-32 h-auto'/>
-          </a>
-          {/* End Logo */}
-        </div>
+    <header className="fixed top-0 w-full bg-white shadow-md z-50">
+      <nav className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
+        {/* Logo */}
+        <a href="/" className="flex-none">
+          <img src="./mm.png" className="w-28 md:w-32 h-auto" alt="Logo" />
+        </a>
 
-        {/* Button Group */}
-        <div className="flex items-center gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3">
-          
-          <button
-            type="button"
-            className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl border border-transparent bg-orange-400 text-black hover:bg-orange-500 transition disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-lime-500"
-          >
-            Get In Touch
-          </button>
+        {/* Mobile Menu Button */}
+        <button
+          onClick={toggleMenu}
+          className="md:hidden p-2 rounded border border-gray-300 hover:bg-gray-100"
+        >
+          {isOpen ? (
+            <svg
+              className="w-6 h-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          ) : (
+            <svg
+              className="w-6 h-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              />
+            </svg>
+          )}
+        </button>
 
-          <div className="md:hidden">
+        {/* Links */}
+        <div
+          className={`${
+            isOpen ? "block" : "hidden"
+          } w-full md:w-auto md:flex md:items-center md:gap-x-8 absolute md:relative top-16 md:top-0 left-0 bg-white md:bg-transparent shadow-md md:shadow-none lg:mt-0 mt-12 `}
+        >
+          <ul className="flex flex-col md:flex-row items-center gap-4 md:gap-8 py-4 md:py-0">
+            <li>
+              <a href="contact-us" className="text-black hover:underline">
+                Contact
+              </a>
+            </li>
+            <li className="relative">
+              <button
+                onClick={toggleDropdown}
+                className="text-black hover:underline flex items-center"
+              >
+                Services
+                <svg
+                  className={`w-4 h-4 ml-1 transition-transform ${
+                    isDropdownOpen ? "rotate-180" : ""
+                  }`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </button>
+              {isDropdownOpen && (
+                <ul className="absolute top-8 left-0 bg-white shadow-md border rounded w-48">
+                  <li>
+                    <a
+                      href="/marketing"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100"
+                    >
+                      Digital Marketing
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/branding"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100"
+                    >
+                      Business Branding
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="/website-design-and-it-services"
+                      className="block px-4 py-2 text-sm hover:bg-gray-100"
+                    >
+                      IT Services
+                    </a>
+                  </li>
+                </ul>
+              )}
+            </li>
+            <li>
+              <a href="about-us" className="text-black hover:underline">
+                About
+              </a>
+            </li>
+            <li>
+              <a href="/careers" className="text-black hover:underline">
+                Careers
+              </a>
+            </li>
+            <li>
+              <a href="#" className="text-black hover:underline">
+                Blog <sup>Soon</sup>
+              </a>
+            </li>
+          </ul>
+
+          {/* Get In Touch */}
+          <div className="mt-4 md:mt-0">
             <button
               type="button"
-              className="hs-collapse-toggle size-[38px] flex justify-center items-center text-sm font-semibold rounded-xl border border-gray-200 text-black hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
-              onClick={toggleMenu}
-              aria-controls="navbar-collapse-with-animation"
-              aria-label="Toggle navigation"
+              className="py-2 px-4 text-sm font-medium rounded bg-orange-400 text-black hover:bg-orange-500 transition w-full md:w-auto"
             >
-              <svg
-                className={`${isOpen ? 'hidden' : 'block'} flex-shrink-0 size-4`}
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="3" x2="21" y1="6" y2="6" />
-                <line x1="3" x2="21" y1="12" y2="12" />
-                <line x1="3" x2="21" y1="18" y2="18" />
-              </svg>
-              <svg
-                className={`${isOpen ? 'block' : 'hidden'} flex-shrink-0 size-4`}
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M18 6 6 18" />
-                <path d="m6 6 12 12" />
-              </svg>
+              <a href="/contact-us">Get In Touch</a>
             </button>
           </div>
         </div>
-        {/* End Button Group */}
-
-        {/* Collapse */}
-        <div
-          id="navbar-collapse-with-animation"
-          className={`hs-collapse ${isOpen ? 'block' : 'hidden'} overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6`}
-        >
-          <div className="flex flex-col gap-y-4 gap-x-0 mt-5 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0">
-            <div>
-              <a
-                className="relative inline-block text-black before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:w-full before:h-1 before:bg-lime-400"
-                href="#"
-                aria-current="page"
-              >
-                Work
-              </a>
-            </div>
-            <div>
-              <a className="inline-block text-black hover:text-gray-600" href="#">
-                Services
-              </a>
-            </div>
-            <div>
-              <a className="inline-block text-black hover:text-gray-600" href="#">
-                About
-              </a>
-            </div>
-            <div>
-              <a className="inline-block text-black hover:text-gray-600" href="#">
-                Careers
-              </a>
-            </div>
-            <div>
-              <a className="inline-block text-black hover:text-gray-600" href="#">
-                Blog
-              </a>
-            </div>
-          </div>
-        </div>
-        {/* End Collapse */}
       </nav>
     </header>
   );

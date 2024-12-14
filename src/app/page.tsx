@@ -7,15 +7,19 @@ import Testimonials from "@/components/homepage/Testimonials";
 import Stats from "@/components/homepage/Stats";
 import Approach from "@/components/homepage/Approach";
 import Header3 from "@/components/homepage/Header3";
+import Services2 from "@/components/homepage/Services2";
+import Ourpromise from "@/components/homepage/Ourpromise";
 
 export default function Home() {
   return (
     <main>
-      <Header3/>
-      <Services/>
-      <Testimonials/>
-      <Stats/>
-      <Approach/>
+      <Header3 />
+      <Services />
+      <Services2 />
+      <Testimonials />
+      <Stats />
+      <Approach />
+      <Ourpromise />
       {/* <Contact/> */}
     </main>
   );
