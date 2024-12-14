@@ -135,6 +135,7 @@ const AboutUs = () => {
                 <a
                   className="group block rounded-xl overflow-hidden focus:outline-none"
                   href="#"
+                  key={data}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
                     <div className="shrink-0 relative rounded-xl overflow-hidden w-full sm:w-56 h-44">

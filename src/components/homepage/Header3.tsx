@@ -351,21 +351,32 @@ const Header3 = () => {
         <div className="flex flex-wrap gap-x-4 sm:gap-x-12  lg:gap-x-20">
           <img
             className="md:w-48 w-24"
+            alt="image"
             src={`./trineenterprise-removebg-preview.png`}
           />
           <img
             className="md:w-48 w-24"
+            alt="image"
             src={`./vasudadevcon-removebg-preview.png`}
           />
           <img
             className="md:w-48 w-24"
+            alt="image"
             src={`./DomaFabricators-removebg-preview.png`}
           />
-          <img className="md:w-48 w-24" src={`./raslake.png`} />
-          <img className="md:w-48 w-24" src={`./remaxboiler.png`} />
-          <img className="md:w-48 w-24" src={`./thomsonboiler.png`} />
-          <img className="md:w-48 w-24" src={`./easymedico_cover.png`} />
-          <img className="md:w-48 w-24" src={`./Logobankpan.png`} />
+          <img className="md:w-48 w-24" alt="image" src={`./raslake.png`} />
+          <img className="md:w-48 w-24" alt="image" src={`./remaxboiler.png`} />
+          <img
+            className="md:w-48 w-24"
+            alt="image"
+            src={`./thomsonboiler.png`}
+          />
+          <img
+            className="md:w-48 w-24"
+            alt="image"
+            src={`./easymedico_cover.png`}
+          />
+          <img className="md:w-48 w-24" alt="image" src={`./Logobankpan.png`} />
         </div>
       </div>
       <Toaster />

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 
-const page = () => {
+const ITService = () => {
   const [activeModal, setActiveModal] = useState<number>(0); // Tracks which modal is open
 
   // Open specific modal
@@ -161,4 +161,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ITService;

@@ -107,21 +107,40 @@ const Clients = () => {
             <div className="flex justify-between gap-6">
               <img
                 className="md:w-48 w-24"
+                alt="image"
                 src={`./trineenterprise-removebg-preview.png`}
               />
               <img
                 className="md:w-48 w-24"
+                alt="image"
                 src={`./vasudadevcon-removebg-preview.png`}
               />
               <img
                 className="md:w-48 w-24"
+                alt="image"
                 src={`./DomaFabricators-removebg-preview.png`}
               />
-              <img className="md:w-48 w-24" src={`./raslake.png`} />
-              <img className="md:w-48 w-24" src={`./remaxboiler.png`} />
-              <img className="md:w-48 w-24" src={`./thomsonboiler.png`} />
-              <img className="md:w-48 w-24" src={`./easymedico_cover.png`} />
-              <img className="md:w-48 w-24" src={`./Logobankpan.png`} />
+              <img className="md:w-48 w-24" alt="image" src={`./raslake.png`} />
+              <img
+                className="md:w-48 w-24"
+                alt="image"
+                src={`./remaxboiler.png`}
+              />
+              <img
+                className="md:w-48 w-24"
+                alt="image"
+                src={`./thomsonboiler.png`}
+              />
+              <img
+                className="md:w-48 w-24"
+                alt="image"
+                src={`./easymedico_cover.png`}
+              />
+              <img
+                className="md:w-48 w-24"
+                alt="image"
+                src={`./Logobankpan.png`}
+              />
 
               <svg
                 className="py-3 lg:py-5 w-16 h-auto md:w-20 lg:w-24 text-neutral-700"
