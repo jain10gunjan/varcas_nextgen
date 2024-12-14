@@ -41,24 +41,24 @@ const Ourpromise = () => {
               Our Mission
             </h1>
             <p className="mb-8 leading-relaxed">
-              <b>BUILD CONTAGIOUS BRANDS</b>
+              <b>BUILD CONTAGIOUS BRANDS: </b>
               <br />
               Digital media is a touch point: an opportunity to make an impact.
               We help you to build loyalty through impactful brand experiences.
               <br />
               <br />
-              <b>CREATE PASSIONATE FANS</b>
+              <b>CREATE PASSIONATE FANS: </b>
               It’s not about selling one product to one person, it’s about
               getting a human to love your brand forever, and share their
               passion with the world.
               <br />
               <br />
-              <b>PROVIDE VALUE TO YOUR AUDIENCE</b>
+              <b>PROVIDE VALUE TO YOUR AUDIENCE: </b>
               Going above and beyond is now mandatory. Our goal is to provide so
               much value to your end user that it hurts.
               <br />
               <br />
-              <b>GROWTH MINDSET</b>
+              <b>GROWTH MINDSET: </b>
               We live and breathe growth, testing, and optimization. Our
               strategies stay on the leading edge of the industry and we never
               done testing innovative tactics. Every day is an opportunity to
@@ -79,23 +79,23 @@ const Ourpromise = () => {
               Our Vision
             </h1>
             <p className="mb-8 leading-relaxed">
-              <b>INCREASE OUR CLIENTS MONTHLY SALES</b>
+              <b>INCREASE OUR CLIENTS MONTHLY SALES: </b>
               Delivering results-oriented brand marketing programs and public
               relations campaigns that enhance our clients’ awareness, improve
               their sales and foster their growth.
               <br />
               <br />
-              <b>COLLABORATIVE & CONSIDERED STRATEGIES</b>
+              <b>COLLABORATIVE & CONSIDERED STRATEGIES: </b>
               We work with our clients to develop customized social strategies,
               test and optimize them along the way.
               <br />
               <br />
-              <b>PIONEERING SOCIAL TRACKING</b>
+              <b>PIONEERING SOCIAL TRACKING: </b>
               If it can’t be measured it can’t be improved. We make tracking my
               efforts and proving ROI a top priority.
               <br />
               <br />
-              <b>TRANSPARENCY</b>
+              <b>TRANSPARENCY: </b>
               We actually show you exactly where your money is being allocated
               and how we are tracking your project.
               <br />

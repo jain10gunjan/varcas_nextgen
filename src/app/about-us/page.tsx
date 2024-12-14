@@ -110,7 +110,7 @@ const AboutUs = () => {
                 </span>
               </div>
               <h1 className="text-2xl lg:text-4xl font-bold font-heading mb-6 max-w-md lg:max-w-2xl">
-                Empowering Brand Communication on Digital Platforms Since 2023
+                Empowering Brand Communication on Digital Platforms Since 2021
               </h1>
               <p className="text-gray-600 text-sm mb-12">
                 Varcas NexGen, an Indore-based digital marketing agency,

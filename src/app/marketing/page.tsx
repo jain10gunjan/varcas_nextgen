@@ -45,8 +45,8 @@ const Marketing = () => {
     },
     {
       id: 5,
-      title: "Anchor Marketing",
-      img: "https://img.freepik.com/free-vector/letter-anchor_1308-84050.jpg",
+      title: "Content Creator Marketing",
+      img: "https://img.freepik.com/free-vector/influencer-recording-new-video-concept_23-2148519049.jpg",
       description:
         "Build authority for your brand using anchor marketing techniques that enhance brand trust and foster long-term customer loyalty.",
     },

@@ -13,7 +13,7 @@ const ConsentFormWithPopup = () => {
               </p>
               <h1 className="text-3xl text-gray-800 font-bold sm:text-5xl lg:text-6xl lg:leading-tight dark:text-neutral-200">
                 Start your learning{" "}
-                <span className="text-blue-500">career with VarcasNextGen</span>
+                <span className="text-blue-500">career with VarcasNexGen</span>
               </h1>
             </div>
           </div>
@@ -80,7 +80,13 @@ const ConsentFormWithPopup = () => {
         </div>
       </div>
 
-      <section className="text-gray-600 body-font">
+      <div className="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
+        <h2 className="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">
+          No Job Posting Right Now.
+        </h2>
+        <p className="mt-1 text-gray-600 dark:text-neutral-400">Stay Tuned.</p>
+      </div>
+      {/* <section className="text-gray-600 body-font">
         <div className="container px-5 py-8 mx-auto">
           <div className="flex flex-wrap -m-4 text-center">
             <div className="p-4 sm:w-1/4   w-1/2">
@@ -103,7 +109,7 @@ const ConsentFormWithPopup = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </>
   );
 };

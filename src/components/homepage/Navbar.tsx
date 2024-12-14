@@ -62,10 +62,11 @@ const Navbar = () => {
         >
           <ul className="flex flex-col md:flex-row items-center gap-4 md:gap-8 py-4 md:py-0">
             <li>
-              <a href="contact-us" className="text-black hover:underline">
-                Contact
+              <a href="about-us" className="text-black hover:underline">
+                About
               </a>
             </li>
+
             <li className="relative">
               <button
                 onClick={toggleDropdown}
@@ -118,11 +119,7 @@ const Navbar = () => {
                 </ul>
               )}
             </li>
-            <li>
-              <a href="about-us" className="text-black hover:underline">
-                About
-              </a>
-            </li>
+
             <li>
               <a href="/careers" className="text-black hover:underline">
                 Careers
@@ -130,7 +127,12 @@ const Navbar = () => {
             </li>
             <li>
               <a href="#" className="text-black hover:underline">
-                Blog <sup>Soon</sup>
+                Blog
+              </a>
+            </li>
+            <li>
+              <a href="contact-us" className="text-black hover:underline">
+                Contact
               </a>
             </li>
           </ul>

@@ -219,10 +219,12 @@ const Page = () => {
             >
               <option value="">Select a program</option>
               <option value="BTech">B.Tech</option>
+              <option value="B.E">B.E</option>
               <option value="BBA">BBA</option>
               <option value="MBA">MBA</option>
               <option value="BCA">BCA</option>
               <option value="MCA">MCA</option>
+              <option value="B.com">B.COM</option>
             </select>
           </div>
 
@@ -358,7 +360,8 @@ const Page = () => {
               htmlFor="projectLinks"
               className="block text-sm font-medium text-gray-700"
             >
-              Project Links:
+              Project Links : [Can be your any work like canva design, website
+              or any other]
             </label>
             <textarea
               id="projectLinks"

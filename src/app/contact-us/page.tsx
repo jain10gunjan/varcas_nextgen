@@ -248,7 +248,7 @@ const ContactUs = () => {
                   href="#mailto:example@site.co"
                   target="_blank"
                 >
-                  info@varcasnextgen.com, <br />
+                  info@varcasnexgen.com, <br />
                 </a>
               </div>
             </div>
@@ -297,7 +297,7 @@ const ContactUs = () => {
               <div className="grow">
                 <h4 className=" font-semibold">Working Hours:</h4>
                 <p className="mt-1 text-neutral-700">
-                  9:AM- 9:PM
+                  9:00 AM- 9:00 PM
                   <br />
                 </p>
                 <p className="mt-2"></p>
