@@ -9,8 +9,8 @@ const Navbar = () => {
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
   return (
-    <header className="fixed top-0 w-full bg-white shadow-md z-50">
-      <nav className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
+    <div className="fixed top-0 w-full bg-white shadow-md z-50">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
         {/* Logo */}
         <a href="/" className="flex-none">
           <img src="./mm.png" className="w-28 md:w-32 h-auto" alt="Logo" />
@@ -145,8 +145,8 @@ const Navbar = () => {
             </button>
           </div>
         </div>
-      </nav>
-    </header>
+      </div>
+    </div>
   );
 };
 
