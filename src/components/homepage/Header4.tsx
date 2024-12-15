@@ -8,7 +8,7 @@ const Header4 = () => {
           <div>
             <h1 className="block text-3xl font-bold text-gray-800 sm:text-4xl lg:text-6xl lg:leading-tight dark:text-white">
               Varcas
-              <span className="text-blue-600"> NextGen</span>
+              <span className="text-blue-600"> NexGen</span>
             </h1>
             <p className="mt-3 text-lg text-gray-800 dark:text-neutral-400">
               Varcas NexGen is a result-driven digital marketing agency
