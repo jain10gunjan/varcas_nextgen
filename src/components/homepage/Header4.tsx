@@ -16,7 +16,7 @@ const Header4 = () => {
               offer services like branding, performance marketing, web
               development, and design, all tailored to your business needs.
               Focused on measurable results, we boost visibility, generate
-              leads, and drive growth. At Varcas NextGen, we build trusted
+              leads, and drive growth. At Varcas NexGen, we build trusted
               partnerships to ensure your startup thrives and achieves lasting
               success in the digital world.
             </p>
