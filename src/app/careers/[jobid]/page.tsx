@@ -38,7 +38,7 @@ const Page = () => {
     e.preventDefault();
 
     const store = new SteinStore(
-      "https://api.steinhq.com/v1/storages/66936c704d11fd04f013470a"
+      "https://api.steinhq.com/v1/storages/675ea624c0883333655b223a"
     );
 
     try {

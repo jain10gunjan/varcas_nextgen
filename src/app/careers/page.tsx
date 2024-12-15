@@ -134,6 +134,9 @@ const ConsentFormWithPopup = () => {
                 Start your learning{" "}
                 <span className="text-blue-500">career with Varcas NexGen</span>
               </h1>
+              <p className="text-lg font-semibold text-gray-500 tracking-wide uppercase mb-3 mt-4">
+                To Know more mail us at Careers@varcasnexgen.com
+              </p>
             </div>
           </div>
         </div>
