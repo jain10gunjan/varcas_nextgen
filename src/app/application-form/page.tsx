@@ -124,7 +124,7 @@ const Page = () => {
     toast.success("Please Wait, We Are Getting Your Message.");
 
     const store = new SteinStore(
-      "https://api.steinhq.com/v1/storages/675e6d09c0883333655b187a"
+      "https://api.steinhq.com/v1/storages/675ea624c0883333655b223a"
     );
 
     try {
