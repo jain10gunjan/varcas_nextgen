@@ -4,11 +4,14 @@ import SteinStore from "stein-js-client";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
+    services: "",
     email: "",
     company: "",
     phone: "",
     message: "",
+    location: "",
   });
 
   // SteinStore instance pointing to your Steinhq sheet
@@ -33,11 +36,14 @@ const ContactUs = () => {
       await store.append("sheet1", [formData]);
       alert("Message sent successfully");
       setFormData({
-        name: "",
+        firstName: "",
+        lastName: "",
+        services: "",
         email: "",
         company: "",
         phone: "",
         message: "",
+        location: "",
       });
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -59,7 +65,7 @@ const ContactUs = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 lg:gap-x-16">
           <div className="md:order-2 border-b border-neutral-800 pb-10 mb-10 md:border-b-0 md:pb-0 md:mb-0">
-            <form onSubmit={handleSubmit}>
+            {/* <form onSubmit={handleSubmit}>
               <div className="space-y-4">
                 <div className="relative">
                   <input
@@ -184,6 +190,225 @@ const ContactUs = () => {
                     </svg>
                   </button>
                 </p>
+              </div>
+            </form> */}
+            <form onSubmit={handleSubmit}>
+              <div className="lg:max-w-lg lg:mx-auto lg:me-0 ms-auto">
+                <div className="p-4 sm:p-7 flex flex-col bg-white rounded-2xl shadow-lg">
+                  <div className="mt-5">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="relative">
+                        <input
+                          type="text"
+                          name="firstName"
+                          id="hs-hero-signup-form-floating-input-first-name"
+                          className="peer p-4 block w-full border-gray-200 rounded-lg text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none 
+                                                    focus:pt-6
+                                                    focus:pb-2
+                                                    [&:not(:placeholder-shown)]:pt-6
+                                                    [&:not(:placeholder-shown)]:pb-2
+                                                    autofill:pt-6
+                                                    autofill:pb-2"
+                          placeholder="John"
+                          value={formData.firstName}
+                          onChange={handleChange}
+                          required
+                        />
+                        <label
+                          htmlFor="hs-hero-signup-form-floating-input-first-name"
+                          className="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent origin-[0_0]  peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                                                    peer-focus:scale-90
+                                                    peer-focus:translate-x-0.5
+                                                    peer-focus:-translate-y-1.5
+                                                    peer-focus:text-gray-500 dark:peer-focus:text-neutral-500
+                                                    peer-[:not(:placeholder-shown)]:scale-90
+                                                    peer-[:not(:placeholder-shown)]:translate-x-0.5
+                                                    peer-[:not(:placeholder-shown)]:-translate-y-1.5
+                                                    peer-[:not(:placeholder-shown)]:text-gray-500 dark:peer-[:not(:placeholder-shown)]:text-neutral-500 dark:text-neutral-500"
+                        >
+                          First name
+                        </label>
+                      </div>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          name="lastName"
+                          id="hs-hero-signup-form-floating-input-last-name"
+                          className="peer p-4 block w-full border-gray-200 rounded-lg text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none 
+                                                    focus:pt-6
+                                                    focus:pb-2
+                                                    [&:not(:placeholder-shown)]:pt-6
+                                                    [&:not(:placeholder-shown)]:pb-2
+                                                    autofill:pt-6
+                                                    autofill:pb-2"
+                          placeholder="Doe"
+                          value={formData.lastName}
+                          onChange={handleChange}
+                          required
+                        />
+                        <label
+                          htmlFor="hs-hero-signup-form-floating-input-last-name"
+                          className="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent origin-[0_0]  peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                                                    peer-focus:scale-90
+                                                    peer-focus:translate-x-0.5
+                                                    peer-focus:-translate-y-1.5
+                                                    peer-focus:text-gray-500 dark:peer-focus:text-neutral-500
+                                                    peer-[:not(:placeholder-shown)]:scale-90
+                                                    peer-[:not(:placeholder-shown)]:translate-x-0.5
+                                                    peer-[:not(:placeholder-shown)]:-translate-y-1.5
+                                                    peer-[:not(:placeholder-shown)]:text-gray-500 dark:peer-[:not(:placeholder-shown)]:text-neutral-500 dark:text-neutral-500"
+                        >
+                          Last name
+                        </label>
+                      </div>
+                    </div>
+                    <div className="relative mt-4">
+                      <input
+                        type="email"
+                        name="email"
+                        id="hs-hero-signup-form-floating-input-email"
+                        className="peer p-4 block w-full border-gray-200 rounded-lg text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none 
+                                                focus:pt-6
+                                                focus:pb-2
+                                                [&:not(:placeholder-shown)]:pt-6
+                                                [&:not(:placeholder-shown)]:pb-2
+                                                autofill:pt-6
+                                                autofill:pb-2"
+                        placeholder="you@example.com"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                      />
+                      <label
+                        htmlFor="hs-hero-signup-form-floating-input-email"
+                        className="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent origin-[0_0]  peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                                                peer-focus:scale-90
+                                                peer-focus:translate-x-0.5
+                                                peer-focus:-translate-y-1.5
+                                                peer-focus:text-gray-500 dark:peer-focus:text-neutral-500
+                                                peer-[:not(:placeholder-shown)]:scale-90
+                                                peer-[:not(:placeholder-shown)]:translate-x-0.5
+                                                peer-[:not(:placeholder-shown)]:-translate-y-1.5
+                                                peer-[:not(:placeholder-shown)]:text-gray-500 dark:peer-[:not(:placeholder-shown)]:text-neutral-500 dark:text-neutral-500"
+                      >
+                        Email address
+                      </label>
+                    </div>
+                    <div className="relative mt-4">
+                      <select
+                        name="services"
+                        className="peer p-4 block w-full border-gray-200 rounded-lg text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none 
+                                                focus:pt-6
+                                                focus:pb-2
+                                                [&:not(:placeholder-shown)]:pt-6
+                                                [&:not(:placeholder-shown)]:pb-2
+                                                autofill:pt-6
+                                                autofill:pb-2"
+                        value={formData.services}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option value="" disabled hidden>
+                          Choose a service
+                        </option>
+                        <option value="Digital Marketing">
+                          Digital Marketing
+                        </option>
+                        <option value="Lead Generation">Lead Generation</option>
+                        <option value="Social Media Marketing">
+                          Social Media Marketing
+                        </option>
+                        <option value="Website Development">
+                          Website Development
+                        </option>
+                        <option value="SEO">SEO Services</option>
+                        <option value="SEO">IT Services</option>
+                      </select>
+                      <label
+                        className="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent origin-[0_0]  peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                                                peer-focus:scale-90
+                                                peer-focus:translate-x-0.5
+                                                peer-focus:-translate-y-1.5
+                                                peer-focus:text-gray-500 dark:peer-focus:text-neutral-500
+                                                peer-[:not(:placeholder-shown)]:scale-90
+                                                peer-[:not(:placeholder-shown)]:translate-x-0.5
+                                                peer-[:not(:placeholder-shown)]:-translate-y-1.5
+                                                peer-[:not(:placeholder-shown)]:text-gray-500 dark:peer-[:not(:placeholder-shown)]:text-neutral-500 dark:text-neutral-500"
+                      >
+                        Services
+                      </label>
+                    </div>
+                    <div className="relative mt-4">
+                      <textarea
+                        name="message"
+                        id="hs-hero-signup-form-floating-input-message"
+                        className="peer p-4 block w-full border-gray-200 rounded-lg text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none 
+                                                focus:pt-6
+                                                focus:pb-2
+                                                [&:not(:placeholder-shown)]:pt-6
+                                                [&:not(:placeholder-shown)]:pb-2
+                                                autofill:pt-6
+                                                autofill:pb-2"
+                        placeholder="Message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        required
+                      />
+                      <label
+                        htmlFor="hs-hero-signup-form-floating-input-message"
+                        className="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent origin-[0_0]  peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                                                peer-focus:scale-90
+                                                peer-focus:translate-x-0.5
+                                                peer-focus:-translate-y-1.5
+                                                peer-focus:text-gray-500 dark:peer-focus:text-neutral-500
+                                                peer-[:not(:placeholder-shown)]:scale-90
+                                                peer-[:not(:placeholder-shown)]:translate-x-0.5
+                                                peer-[:not(:placeholder-shown)]:-translate-y-1.5
+                                                peer-[:not(:placeholder-shown)]:text-gray-500 dark:peer-[:not(:placeholder-shown)]:text-neutral-500 dark:text-neutral-500"
+                      >
+                        Message
+                      </label>
+                    </div>
+                    <div className="relative mt-4">
+                      <input
+                        type="text"
+                        name="location"
+                        id="hs-hero-signup-form-floating-input-location"
+                        className="peer p-4 block w-full border-gray-200 rounded-lg text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none 
+                                                focus:pt-6
+                                                focus:pb-2
+                                                [&:not(:placeholder-shown)]:pt-6
+                                                [&:not(:placeholder-shown)]:pb-2
+                                                autofill:pt-6
+                                                autofill:pb-2"
+                        placeholder="Location"
+                        value={formData.location}
+                        onChange={handleChange}
+                        required
+                      />
+                      <label
+                        htmlFor="hs-hero-signup-form-floating-input-location"
+                        className="absolute top-0 start-0 p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent origin-[0_0]  peer-disabled:opacity-50 peer-disabled:pointer-events-none
+                                                peer-focus:scale-90
+                                                peer-focus:translate-x-0.5
+                                                peer-focus:-translate-y-1.5
+                                                peer-focus:text-gray-500 dark:peer-focus:text-neutral-500
+                                                peer-[:not(:placeholder-shown)]:scale-90
+                                                peer-[:not(:placeholder-shown)]:translate-x-0.5
+                                                peer-[:not(:placeholder-shown)]:-translate-y-1.5
+                                                peer-[:not(:placeholder-shown)]:text-gray-500 dark:peer-[:not(:placeholder-shown)]:text-neutral-500 dark:text-neutral-500"
+                      >
+                        Location
+                      </label>
+                    </div>
+                    <button
+                      type="submit"
+                      className="w-full mt-6 py-2 px-4 bg-blue-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    >
+                      Send Message
+                    </button>
+                  </div>
+                </div>
               </div>
             </form>
           </div>

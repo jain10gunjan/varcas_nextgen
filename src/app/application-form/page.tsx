@@ -20,10 +20,14 @@ const Page = () => {
     internshipExperience: "",
     certificates: "",
     projectLinks: "",
+    appliedfor: "",
     resumeLink: "",
     consentChecked: false,
     eSign: "",
   });
+
+  const [isPopupVisible, setPopupVisible] = useState(false);
+  const togglePopup = () => setPopupVisible(!isPopupVisible);
 
   const handleInputChange = (e: any) => {
     const { name, value, type, checked } = e.target;
@@ -34,16 +38,101 @@ const Page = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    toast.success("Please Wait We Are Getting Your Message.");
     e.preventDefault();
 
+    // Validate required fields
+    if (!formData.fullName.trim()) {
+      toast("Please enter your full name.");
+      return;
+    }
+    if (!formData.dateOfBirth.trim()) {
+      toast("Please enter your date of birth.");
+      return;
+    }
+    if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email)) {
+      toast("Please enter a valid email address.");
+      return;
+    }
+    if (!formData.phoneNumber.trim()) {
+      toast("Please enter your phone number.");
+      return;
+    }
+    if (!formData.permanentAddress.trim()) {
+      toast("Please enter your permanent address.");
+      return;
+    }
+    if (!formData.college.trim()) {
+      toast("Please enter your college name.");
+      return;
+    }
+    if (!formData.degree.trim()) {
+      toast("Please enter your degree.");
+      return;
+    }
+    if (!formData.specialization.trim()) {
+      toast("Please enter your specialization.");
+      return;
+    }
+    if (!formData.yearOfStudy.trim()) {
+      toast("Please enter your year of study.");
+      return;
+    }
+    if (!formData.cgpa.trim()) {
+      toast("Please enter your CGPA.");
+      return;
+    }
+    if (!formData.skills.trim()) {
+      toast("Please enter your skills.");
+      return;
+    }
+    if (!formData.experience.trim()) {
+      toast("Please enter your experience.");
+      return;
+    }
+    if (!formData.internshipExperience.trim()) {
+      toast("Please enter your internship experience.");
+      return;
+    }
+    if (!formData.certificates.trim()) {
+      toast("Please enter your certificates.");
+      return;
+    }
+    if (!formData.projectLinks.trim()) {
+      toast("Please enter your project links.");
+      return;
+    }
+    if (!formData.appliedfor.trim()) {
+      toast("Please specify the position you are applying for.");
+      return;
+    }
+    if (!formData.resumeLink.trim()) {
+      toast("Please provide a link to your resume.");
+      return;
+    }
+
+    // Consent and e-signature checks
+    if (!formData.consentChecked) {
+      toast("Please agree to the terms and conditions.");
+      return;
+    }
+    if (!formData.eSign.trim()) {
+      toast("Please type your name as an e-signature.");
+      return;
+    }
+
+    // Show a loading message before sending the request
+    toast.success("Please Wait, We Are Getting Your Message.");
+
     const store = new SteinStore(
-      "https://api.steinhq.com/v1/storages/66936c704d11fd04f013470a"
+      "https://api.steinhq.com/v1/storages/675e6d09c0883333655b187a"
     );
 
     try {
+      // Send the data to the API
       await store.append("sheet1", [formData]);
       toast.success("Message sent successfully");
+
+      // Reset form data after successful submission
       setFormData({
         fullName: "",
         dateOfBirth: "",
@@ -60,6 +149,7 @@ const Page = () => {
         internshipExperience: "",
         certificates: "",
         projectLinks: "",
+        appliedfor: "",
         resumeLink: "",
         consentChecked: false,
         eSign: "",
@@ -69,15 +159,7 @@ const Page = () => {
       toast.error("An error occurred while sending the message");
     }
 
-    if (!formData.consentChecked) {
-      toast("Please agree to the terms and conditions.");
-      return;
-    }
-    if (!formData.eSign.trim()) {
-      toast("Please type your name as an e-signature.");
-      return;
-    }
-
+    // Show success message after submission
     toast.success(
       `Form submitted successfully! Thank you, ${formData.fullName}.`
     );
@@ -85,6 +167,132 @@ const Page = () => {
 
   return (
     <div className="mt-48 mb-24">
+      {/* Pop-up modal */}
+      {isPopupVisible && (
+        <div
+          className="mt-24 fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center"
+          onClick={togglePopup}
+        >
+          <div
+            className="bg-white p-6 max-w-lg w-full max-h-[80%] overflow-y-auto rounded-lg shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-2xl font-semibold mb-4">Internship Details</h2>
+            <div className="space-y-4 max-h-80 overflow-y-auto">
+              <div>
+                <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-lg space-y-6">
+                  <h2 className="text-2xl font-bold text-gray-800">
+                    Terms and Conditions
+                  </h2>
+
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-700">
+                        Attendance:
+                      </h3>
+                      <p className="text-gray-600">
+                        A minimum of 90% attendance is mandatory during the
+                        internship period. Failure to meet the required
+                        attendance may result in disqualification from obtaining
+                        the Certificate of Internship.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-700">
+                        Form Filling:
+                      </h3>
+                      <p className="text-gray-600">
+                        Interns must properly fill out all required forms,
+                        including onboarding forms, task trackers, and feedback
+                        forms, as part of the program.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-700">
+                        Task Completion:
+                      </h3>
+                      <p className="text-gray-600">
+                        Timely response to all assigned tasks is crucial.
+                        Interns are expected to complete all assignments,
+                        projects, and activities within the deadlines set by the
+                        mentors.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-700">
+                        Assessment:
+                      </h3>
+                      <p className="text-gray-600">
+                        Interns will undergo regular evaluations, including
+                        MCQ-based tests, to assess their understanding and
+                        performance. Completing these assessments is compulsory
+                        to qualify for the certificate.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-700">
+                        Certificate Fee:
+                      </h3>
+                      <p className="text-gray-600">
+                        A nominal management fee of ₹1XX/- will be charged to
+                        cover administrative costs for the issuance of the
+                        Certificate of Internship and Letter of Recommendation.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-700">
+                        Professional Conduct:
+                      </h3>
+                      <p className="text-gray-600">
+                        Interns must maintain professional behavior and adhere
+                        to Varcas NexGen’s policies. This includes regular
+                        communication with mentors, meeting deadlines, and
+                        collaborating effectively with team members.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-700">
+                        Eligibility for Future Stipend-Based Opportunities:
+                      </h3>
+                      <p className="text-gray-600">
+                        Interns who successfully complete the program, fulfill
+                        all terms and conditions, and obtain the certificate
+                        will be eligible for stipend-based internships in future
+                        opportunities.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-700">
+                        Program Termination:
+                      </h3>
+                      <p className="text-gray-600">
+                        Varcas NexGen reserves the right to terminate the
+                        internship of any individual who fails to comply with
+                        the terms and conditions, including attendance, form
+                        filling, task completion, and assessments.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button
+              className="mt-4 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+              onClick={togglePopup}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="max-w-xl mx-auto p-6 bg-gray-50 rounded-md shadow-md">
         <h1 className="text-2xl font-bold text-gray-800">
           Apply For Internship
@@ -372,7 +580,26 @@ const Page = () => {
               className="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300"
             ></textarea>
           </div>
-
+          <div className="mb-4">
+            <label
+              htmlFor="appliedfor"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Applied For Role:
+            </label>
+            <select
+              id="appliedfor"
+              name="appliedfor"
+              value={formData.appliedfor}
+              onChange={handleInputChange}
+              className="mt-1 block w-full p-2 border rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm border-gray-300"
+            >
+              <option value="">Select Role</option>
+              <option value="fullstack">Full Stack</option>
+              <option value="frontend">Front End</option>
+              <option value="backend">Back End</option>
+            </select>
+          </div>
           {/* Resume Link */}
           <div className="mb-4">
             <label
@@ -407,10 +634,17 @@ const Page = () => {
                 htmlFor="consentChecked"
                 className="ml-2 text-sm text-gray-700"
               >
-                I agree to the terms and conditions. By submitting this form , I
-                certify that the information provided is true and accurate to
-                the best of my knowledge. I agree to abide by the terms and
-                conditions of the internship program.
+                I agree to the{" "}
+                <a
+                  onClick={togglePopup}
+                  className="hover:cursor-pointer text-amber-400"
+                >
+                  terms and conditions.
+                </a>{" "}
+                By submitting this form , I certify that the information
+                provided is true and accurate to the best of my knowledge. I
+                agree to abide by the terms and conditions of the internship
+                program.
               </label>
             </div>
           </div>
@@ -445,6 +679,7 @@ const Page = () => {
           </div>
         </form>
       </div>
+
       <Toaster />
     </div>
   );

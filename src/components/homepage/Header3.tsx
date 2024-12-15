@@ -64,11 +64,17 @@ const Header3 = () => {
                 Varcas NexGen
               </h1>
               <p className="text-gray-600">
-                Varcas NexGen Digital Marketing is a cutting-edge digital
-                marketing agency dedicated to helping businesses thrive in the
-                online world. With a team of skilled professionals and
-                innovative strategies, we offer a comprehensive range of
-                services tailored to meet your specific needs and goals.
+                Varcas NextGen is a result-oriented digital marketing agency
+                committed to helping medium and small-scale startups grow and
+                succeed in the digital space. We provide a comprehensive range
+                of services, including branding, performance marketing, web
+                development, and design, all tailored to meet your unique
+                business needs. Our focus is on delivering measurable results
+                that drive growth, from boosting online visibility to generating
+                leads and conversions. At Varcas NextGen, we believe in
+                partnerships built on trust and outcomes, ensuring your startup
+                not only thrives but also achieves sustainable success in the
+                competitive digital landscape.
               </p>
             </div>
 
@@ -100,7 +106,7 @@ const Header3 = () => {
                   <div className="flex-shrink-0">
                     <img
                       className="size-8 rounded-full"
-                      src="https://media.licdn.com/dms/image/D4D03AQHKOAnZa0Iguw/profile-displayphoto-shrink_800_800/0/1714896273422?e=1726704000&v=beta&t=mE6gtxMuqL49gZS-ab60HFRU8kjrCPgxelQkfrp4RRQ"
+                      src="https://media.licdn.com/dms/image/v2/D4D03AQHKOAnZa0Iguw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1714896273422?e=1740009600&v=beta&t=HxQ4v7GKtxe7xrJEIu4Mwe5saccbjgUAg7w-LFZv2xs"
                       alt="Founder Image"
                     />
                   </div>
