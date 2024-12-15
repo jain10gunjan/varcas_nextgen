@@ -37,7 +37,7 @@ const ConsentFormWithPopup = () => {
           <li>Build your portfolio with impactful projects.</li>
         </ul>
         <h3>How to Apply:</h3>
-        <p>Submit your application by [insert date]. Varcas NexGen welcomes applicants from all backgrounds.</p>
+        <p>Submit your application by 21 December 2024. Varcas NexGen welcomes applicants from all backgrounds.</p>
       </div>`,
     },
     {
@@ -73,7 +73,7 @@ const ConsentFormWithPopup = () => {
           <li>Build your portfolio with impactful projects.</li>
         </ul>
         <h3>How to Apply:</h3>
-        <p>Submit your application by [insert date]. Varcas NexGen welcomes applicants from all backgrounds.</p>
+        <p>Submit your application by 21 December 2024. Varcas NexGen welcomes applicants from all backgrounds.</p>
       </div>`,
     },
     {
@@ -108,7 +108,7 @@ const ConsentFormWithPopup = () => {
           <li>Build your portfolio with impactful projects.</li>
         </ul>
         <h3>How to Apply:</h3>
-        <p>Submit your application by [insert date]. Varcas NexGen welcomes applicants from all backgrounds.</p>
+        <p>Submit your application by 21 December 2024. Varcas NexGen welcomes applicants from all backgrounds.</p>
       </div>`,
     },
   ];
