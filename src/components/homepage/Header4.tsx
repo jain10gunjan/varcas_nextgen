@@ -11,7 +11,7 @@ const Header4 = () => {
               <span className="text-blue-600"> NextGen</span>
             </h1>
             <p className="mt-3 text-lg text-gray-800 dark:text-neutral-400">
-              Varcas NextGen is a result-driven digital marketing agency
+              Varcas NexGen is a result-driven digital marketing agency
               dedicated to helping medium and small-scale startups succeed. We
               offer services like branding, performance marketing, web
               development, and design, all tailored to your business needs.

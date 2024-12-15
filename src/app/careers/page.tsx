@@ -132,7 +132,7 @@ const ConsentFormWithPopup = () => {
               </p>
               <h1 className="text-3xl text-gray-800 font-bold sm:text-5xl lg:text-6xl lg:leading-tight dark:text-neutral-200">
                 Start your learning{" "}
-                <span className="text-blue-500">career with VarcasNexGen</span>
+                <span className="text-blue-500">career with Varcas NexGen</span>
               </h1>
             </div>
           </div>
