@@ -369,7 +369,7 @@ const InvoicesList = () => {
           .from("installments")
           .select("*")
           .eq("invoice_id", invoice.id)
-          .order("payment_date", { ascending: false });
+          .order("payment_date", { ascending: true }); // Changed to ascending for natural order
         if (error) {
           console.error("Error fetching installments:", error);
           return;
@@ -505,24 +505,38 @@ const InvoicesList = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td className="border p-1 text-gray-600">
-                            Service Name
+                        {invoice.items.map((item, index) => (
+                          <React.Fragment key={index}>
+                            <tr>
+                              <td className="border p-1 text-gray-600">
+                                Service Name
+                              </td>
+                              <td className="border p-1 text-right text-gray-800">
+                                {item.description}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="border p-1 text-gray-600">
+                                Quantity
+                              </td>
+                              <td className="border p-1 text-right text-gray-800">
+                                {item.quantity}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td className="border p-1 text-gray-600">Rate</td>
+                              <td className="border p-1 text-right text-gray-800">
+                                ₹{item.rate.toLocaleString()}
+                              </td>
+                            </tr>
+                          </React.Fragment>
+                        ))}
+                        <tr className="font-bold bg-gray-50">
+                          <td className="border p-1 text-gray-700">
+                            Total Fee
                           </td>
-                          <td className="border p-1 text-right text-gray-800">
-                            {invoice.items[0].description}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border p-1 text-gray-600">Quantity</td>
-                          <td className="border p-1 text-right text-gray-800">
-                            {invoice.items[0].quantity}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="border p-1 text-gray-600">Rate</td>
-                          <td className="border p-1 text-right text-gray-800">
-                            ₹{invoice.items[0].rate.toLocaleString()}
+                          <td className="border p-1 text-right text-red-600">
+                            ₹{invoice.subtotal.toLocaleString()}
                           </td>
                         </tr>
                         <tr className="font-semibold bg-gray-50">
@@ -619,7 +633,11 @@ const InvoicesList = () => {
                           Remaining Fee
                         </td>
                         <td className="border p-1 text-right text-red-600">
-                          ₹{remainingFee.toLocaleString()}
+                          ₹{" "}
+                          {(
+                            invoice.subtotal -
+                            installments[selectedInstallment].amount
+                          ).toLocaleString()}
                         </td>
                       </tr>
                     </tbody>
@@ -969,6 +987,9 @@ const InvoicesList = () => {
               <th className="p-3 text-left">Due Date</th>
               <th className="p-3 text-right">Total</th>
               <th className="p-3 text-right">Balance Due</th>
+              <th className="p-3 text-right">WA</th>
+              <th className="p-3 text-right">Email</th>
+
               <th className="p-3 text-right">Actions</th>
             </tr>
           </thead>
@@ -987,6 +1008,25 @@ const InvoicesList = () => {
                 <td className="p-3 text-right text-red-600">
                   ₹{invoice.balance_due.toFixed(2)}
                 </td>
+                <td className="p-3 text-right ">
+                  <a
+                    href={`https://wa.me/${invoice.po_number}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Message
+                  </a>
+                </td>
+                <td className="p-3 text-right ">
+                  <a
+                    href={`mailto:${invoice.ship_to}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Mail
+                  </a>
+                </td>
+
                 <td className="p-3 text-right space-x-2">
                   <button
                     onClick={() => setSelectedInvoice(invoice)}

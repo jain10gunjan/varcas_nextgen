@@ -36,7 +36,7 @@ export default function InvoiceGenerator() {
       // Generate invoice number: {count + 1}{year}VN
       const currentYear = new Date().getFullYear().toString();
       const invoiceCount = count + 1; // Increment count for the new invoice
-      const formattedCount = String(invoiceCount).padStart(2, "0"); // Ensure at least 2 digits
+      const formattedCount = String(invoiceCount).padStart(3, "0"); // Ensure at least 2 digits
       const generatedInvoiceNumber = `${formattedCount}${currentYear}VN`;
       setInvoiceNumber(generatedInvoiceNumber);
     };
@@ -157,13 +157,13 @@ export default function InvoiceGenerator() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                Ship To (optional)
+                Email
               </label>
               <textarea
                 value={shipTo}
                 onChange={(e) => setShipTo(e.target.value)}
                 className="w-full border rounded p-2 mt-1"
-                placeholder="(optional)"
+                placeholder="Enter Email (Optional)"
               />
             </div>
             <div>
@@ -186,7 +186,7 @@ export default function InvoiceGenerator() {
                 className="w-full border rounded p-2 mt-1"
               />
               <label className="block text-sm font-medium text-gray-700 mt-2">
-                PO Number
+                Phone Number
               </label>
               <input
                 type="text"
