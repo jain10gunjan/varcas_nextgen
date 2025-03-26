@@ -853,8 +853,7 @@ const InvoicesList = () => {
             </label>
             <input
               type="number"
-              step="0.01"
-              min="0"
+              step="1000"
               value={installmentAmount}
               onChange={(e) => setInstallmentAmount(e.target.value)}
               placeholder="Enter amount"

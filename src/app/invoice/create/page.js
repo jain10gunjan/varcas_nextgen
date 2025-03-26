@@ -114,39 +114,13 @@ export default function InvoiceGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 mt-32">
       <Toaster />
-
-      {/* Header */}
-      <header className="bg-white shadow p-4 flex justify-between items-center">
-        <div className="flex items-center">
-          <span className="text-green-500 font-bold text-xl">
-            Invoice-Generator.com
-          </span>
-        </div>
-        <div>
-          <button className="text-gray-600 mr-4">Help</button>
-          <button className="text-gray-600 mr-4">History</button>
-          <button className="text-gray-600 mr-4">Invoicing Guide</button>
-          <button className="bg-green-500 text-white px-4 py-2 rounded">
-            Sign Up
-          </button>
-        </div>
-      </header>
 
       {/* Main Content */}
       <main className="p-8">
-        <h1 className="text-3xl font-bold">Free Invoice Template</h1>
+        <h1 className="text-5xl font-bold">VARCASNEXGEN Invoice Generator</h1>
         <p className="text-xl mt-2">Make beautiful invoices with one click!</p>
-        <p className="text-gray-600 mt-4">
-          Welcome to the original Invoice Generator, trusted by millions of
-          people. Invoice Generator lets you instantly make invoices with our
-          attractive invoice template straight from your web browser. The
-          invoices you make can be sent and paid online or downloaded as a PDF.
-        </p>
-        <button className="bg-green-500 text-white px-4 py-2 mt-4 rounded">
-          OK, got it!
-        </button>
 
         {/* Invoice Form */}
         <form
@@ -156,16 +130,8 @@ export default function InvoiceGenerator() {
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold">INVOICE</h2>
             <div className="flex items-center">
-              <span className="mr-2">#{invoiceNumber}</span>
-              <select className="border p-1 rounded mr-2">
-                <option>CURRENCY ⟨₹⟩</option>
-              </select>
-              <button
-                type="button"
-                className="bg-green-500 text-white px-4 py-2 rounded mr-2"
-              >
-                Download
-              </button>
+              <span className="mr-2">Invoice Number: {invoiceNumber}</span>
+
               <button
                 type="submit"
                 className="bg-green-500 text-white px-4 py-2 rounded"
@@ -312,7 +278,7 @@ export default function InvoiceGenerator() {
                 <span>₹{subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between mt-2">
-                <span>Tax</span>
+                <span>Tax Amount</span>
                 <input
                   type="number"
                   value={tax}
