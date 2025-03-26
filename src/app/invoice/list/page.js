@@ -460,11 +460,11 @@ const InvoicesList = () => {
                   </div>
                   <div className="text-right">
                     <h1 className="text-2xl font-bold text-blue-800 mb-2">
-                      PAYMENT RECEIPT
+                      INVOICE
                     </h1>
                     <div className="space-y-1 text-xs">
                       <p>
-                        <strong>Receipt No:</strong> {invoice.invoice_number}
+                        <strong>Invoice No:</strong> {invoice.invoice_number}
                       </p>
                       <p>
                         <strong>Date of Issue:</strong>{" "}
@@ -669,19 +669,26 @@ const InvoicesList = () => {
                   <h3 className="text-sm font-semibold text-gray-800 border-b pb-2 mb-3 bg-gray-100 p-2 rounded-t-md">
                     Scan to Pay
                   </h3>
+                  <div className="flex justify-center items-center">
+                    <img
+                      src="/qr.jpg"
+                      alt="QR Code"
+                      className="h-48 w-48 object-contain"
+                    />
+                  </div>
                   <p className="text-center text-xs text-gray-600 mt-2">
                     Scan QR Code for Instant Payment
                   </p>
                 </div>
                 <div className="border p-3 rounded-lg">
                   <h3 className="text-sm font-semibold text-gray-800 border-b pb-2 mb-3 bg-gray-100 p-2 rounded-t-md">
-                    Bank Details
+                    Payment Details
                   </h3>
                   <table className="w-full text-xs">
                     <tbody>
                       <tr className="border-b">
                         <td className="p-1 text-gray-700">Account Name</td>
-                        <td className="p-1 text-right">Varcas Nexgen </td>
+                        <td className="p-1 text-right">Varcas Nexgen</td>
                       </tr>
                       <tr className="border-b">
                         <td className="p-1 text-gray-700">Bank Name</td>
@@ -689,7 +696,16 @@ const InvoicesList = () => {
                       </tr>
                       <tr className="border-b">
                         <td className="p-1 text-gray-700">Account Number</td>
-                        <td className="p-1 text-right">50200100622535 </td>
+                        <td className="p-1 text-right">50200100622535</td>
+                      </tr>
+                      <tr>
+                        <td className="p-1 text-gray-700 flex items-center">
+                          UPI ID
+                          <span className="ml-2 text-blue-600 font-bold">
+                            ⚡
+                          </span>
+                        </td>
+                        <td className="p-1 text-right">8602758854@hdfcbank</td>
                       </tr>
                     </tbody>
                   </table>
