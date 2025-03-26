@@ -369,7 +369,7 @@ const InvoicesList = () => {
           .from("installments")
           .select("*")
           .eq("invoice_id", invoice.id)
-          .order("payment_date", { ascending: true }); // Changed to ascending for natural order
+          .order("payment_date", { ascending: true });
         if (error) {
           console.error("Error fetching installments:", error);
           return;
@@ -377,10 +377,16 @@ const InvoicesList = () => {
         setInstallments(data || []);
       };
       fetchInstallments();
-    }, [invoice.id]);
+    }, [invoice.id, supabase]);
 
-    const remainingFee = invoice.balance_due;
-    const nextDueDate = invoice.due_date;
+    // Calculate total paid amount from all installments
+    const totalPaid = installments.reduce((sum, inst) => sum + inst.amount, 0);
+    const remainingFee = invoice.subtotal - totalPaid; // Correct remaining fee
+    const nextDueDate =
+      invoice.due_date ||
+      new Date(new Date().setMonth(new Date().getMonth() + 1))
+        .toISOString()
+        .split("T")[0]; // Default to 1 month later
 
     const handleShowFullReceipt = () => {
       setSelectedInstallment(null);
@@ -397,7 +403,7 @@ const InvoicesList = () => {
         <div className="bg-white max-w-5xl w-full flex rounded-lg shadow-xl overflow-hidden pt-16">
           {/* Sidebar */}
           <div className="w-64 bg-gray-50 border-r border-gray-200 p-4 overflow-y-auto h-[80vh]">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2 bg-blue-50 p-2 rounded-t-md">
               Payment Records
             </h3>
             <ul className="space-y-2">
@@ -437,7 +443,7 @@ const InvoicesList = () => {
               className="bg-white mt-2 p-8 w-[210mm] border-2 border-gray-800 mx-auto relative"
             >
               {/* Header Section */}
-              <div className="border-b-2 border-gray-300 pb-2 mb-4">
+              <div className="border-b-2 border-gray-300 pb-2 mb-4 bg-blue-50 p-4 rounded-t-md">
                 <div className="flex justify-between items-center">
                   <div>
                     <img
@@ -462,7 +468,9 @@ const InvoicesList = () => {
                       </p>
                       <p>
                         <strong>Date of Issue:</strong>{" "}
-                        {new Date().toLocaleDateString()}
+                        {new Date(
+                          invoice.issue_date || "2025-03-26"
+                        ).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
@@ -490,14 +498,20 @@ const InvoicesList = () => {
                 <>
                   {/* Service Summary */}
                   <div className="mb-4">
-                    <h3 className="text-sm font-semibold text-gray-800 mb-2">
+                    <h3 className="text-sm font-semibold text-gray-800 mb-2 bg-gray-100 p-2 rounded-t-md">
                       Service Summary
                     </h3>
                     <table className="w-full border-collapse text-xs">
                       <thead>
-                        <tr className="bg-gray-100">
+                        <tr className="bg-blue-100">
                           <th className="border p-1 text-left font-medium text-gray-700">
                             Description
+                          </th>
+                          <th className="border p-1 text-right font-medium text-gray-700">
+                            Quantity
+                          </th>
+                          <th className="border p-1 text-right font-medium text-gray-700">
+                            Rate (₹)
                           </th>
                           <th className="border p-1 text-right font-medium text-gray-700">
                             Amount (₹)
@@ -506,33 +520,23 @@ const InvoicesList = () => {
                       </thead>
                       <tbody>
                         {invoice.items.map((item, index) => (
-                          <React.Fragment key={index}>
-                            <tr>
-                              <td className="border p-1 text-gray-600">
-                                Service Name
-                              </td>
-                              <td className="border p-1 text-right text-gray-800">
-                                {item.description}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="border p-1 text-gray-600">
-                                Quantity
-                              </td>
-                              <td className="border p-1 text-right text-gray-800">
-                                {item.quantity}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td className="border p-1 text-gray-600">Rate</td>
-                              <td className="border p-1 text-right text-gray-800">
-                                ₹{item.rate.toLocaleString()}
-                              </td>
-                            </tr>
-                          </React.Fragment>
+                          <tr key={index}>
+                            <td className="border p-1 text-gray-600">
+                              {item.description}
+                            </td>
+                            <td className="border p-1 text-right text-gray-800">
+                              {item.quantity}
+                            </td>
+                            <td className="border p-1 text-right text-gray-800">
+                              ₹{item.rate.toLocaleString()}
+                            </td>
+                            <td className="border p-1 text-right text-gray-800">
+                              ₹{(item.quantity * item.rate).toLocaleString()}
+                            </td>
+                          </tr>
                         ))}
                         <tr className="font-bold bg-gray-50">
-                          <td className="border p-1 text-gray-700">
+                          <td colSpan="3" className="border p-1 text-gray-700">
                             Total Fee
                           </td>
                           <td className="border p-1 text-right text-red-600">
@@ -540,7 +544,7 @@ const InvoicesList = () => {
                           </td>
                         </tr>
                         <tr className="font-semibold bg-gray-50">
-                          <td className="border p-1 text-gray-700">
+                          <td colSpan="3" className="border p-1 text-gray-700">
                             Remaining Fee
                           </td>
                           <td className="border p-1 text-right text-red-600">
@@ -554,12 +558,12 @@ const InvoicesList = () => {
                   {/* Installment Payment History */}
                   {installments.length > 0 && (
                     <div className="mb-4">
-                      <h3 className="text-sm font-semibold text-gray-800 mb-2">
+                      <h3 className="text-sm font-semibold text-gray-800 mb-2 bg-gray-100 p-2 rounded-t-md">
                         Installment Payment History
                       </h3>
                       <table className="w-full border-collapse text-xs">
                         <thead>
-                          <tr className="bg-gray-100">
+                          <tr className="bg-blue-100">
                             <th className="border p-1 text-left font-medium text-gray-700">
                               Installment
                             </th>
@@ -594,24 +598,24 @@ const InvoicesList = () => {
                 </>
               ) : (
                 <div className="mb-4">
-                  <h3 className="text-sm font-semibold text-gray-800 mb-2">
+                  <h3 className="text-sm font-semibold text-gray-800 mb-2 bg-gray-100 p-2 rounded-t-md">
                     Installment {selectedInstallment + 1} Details
                   </h3>
                   <table className="w-full border-collapse text-xs">
                     <thead>
-                      <tr className="bg-gray-100">
+                      <tr className="bg-blue-100">
                         <th className="border p-1 text-left font-medium text-gray-700">
                           Description
                         </th>
                         <th className="border p-1 text-right font-medium text-gray-700">
-                          Amount (₹)
+                          Value
                         </th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <td className="border p-1 text-gray-600">
-                          Installment {selectedInstallment + 1}
+                          Installment {selectedInstallment + 1} Amount
                         </td>
                         <td className="border p-1 text-right text-gray-800">
                           ₹
@@ -630,13 +634,27 @@ const InvoicesList = () => {
                       </tr>
                       <tr>
                         <td className="border p-1 text-gray-600">
+                          Total Paid to Date
+                        </td>
+                        <td className="border p-1 text-right text-gray-800">
+                          ₹
+                          {installments
+                            .slice(0, selectedInstallment + 1)
+                            .reduce((sum, inst) => sum + inst.amount, 0)
+                            .toLocaleString()}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="border p-1 text-gray-600">
                           Remaining Fee
                         </td>
                         <td className="border p-1 text-right text-red-600">
-                          ₹{" "}
+                          ₹
                           {(
                             invoice.subtotal -
-                            installments[selectedInstallment].amount
+                            installments
+                              .slice(0, selectedInstallment + 1)
+                              .reduce((sum, inst) => sum + inst.amount, 0)
                           ).toLocaleString()}
                         </td>
                       </tr>
@@ -648,7 +666,7 @@ const InvoicesList = () => {
               {/* Payment and Bank Details */}
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div className="border p-3 rounded-lg">
-                  <h3 className="text-sm font-semibold text-gray-800 border-b pb-2 mb-3">
+                  <h3 className="text-sm font-semibold text-gray-800 border-b pb-2 mb-3 bg-gray-100 p-2 rounded-t-md">
                     Scan to Pay
                   </h3>
                   <p className="text-center text-xs text-gray-600 mt-2">
@@ -656,14 +674,14 @@ const InvoicesList = () => {
                   </p>
                 </div>
                 <div className="border p-3 rounded-lg">
-                  <h3 className="text-sm font-semibold text-gray-800 border-b pb-2 mb-3">
+                  <h3 className="text-sm font-semibold text-gray-800 border-b pb-2 mb-3 bg-gray-100 p-2 rounded-t-md">
                     Bank Details
                   </h3>
                   <table className="w-full text-xs">
                     <tbody>
                       <tr className="border-b">
                         <td className="p-1 text-gray-700">Account Name</td>
-                        <td className="p-1 text-right">VARCASNEXGEN</td>
+                        <td className="p-1 text-right">Varcas Nexgen </td>
                       </tr>
                       <tr className="border-b">
                         <td className="p-1 text-gray-700">Bank Name</td>
@@ -671,15 +689,7 @@ const InvoicesList = () => {
                       </tr>
                       <tr className="border-b">
                         <td className="p-1 text-gray-700">Account Number</td>
-                        <td className="p-1 text-right">50100123456789</td>
-                      </tr>
-                      <tr className="border-b">
-                        <td className="p-1 text-gray-700">IFSC Code</td>
-                        <td className="p-1 text-right">HDFC0001234</td>
-                      </tr>
-                      <tr>
-                        <td className="p-1 text-gray-700">Branch</td>
-                        <td className="p-1 text-right">Digital Branch</td>
+                        <td className="p-1 text-right">50200100622535 </td>
                       </tr>
                     </tbody>
                   </table>
@@ -687,12 +697,13 @@ const InvoicesList = () => {
               </div>
 
               {/* Footer */}
-              <div className="text-xs text-gray-500 border-t pt-2 text-right">
+              <div className="text-xs text-gray-500 border-t pt-2 text-right bg-gray-50 p-2 rounded-b-md">
                 <p>Official receipt by VARCASNEXGEN.</p>
                 <p>Retain for records.</p>
-                <p className="mt-2">
-                  <strong>Authorized Signatory</strong>
-                </p>
+                <p>info@varcasnexgen.com </p>
+                <p>A/L 163 housing board colony, pithampur</p>
+                +91 8602758854
+                <p></p>
               </div>
             </div>
 
@@ -1010,7 +1021,7 @@ const InvoicesList = () => {
                 </td>
                 <td className="p-3 text-right ">
                   <a
-                    href={`https://wa.me/${invoice.po_number}`}
+                    href={`https://wa.me/+91${invoice.po_number}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
