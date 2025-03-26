@@ -481,8 +481,12 @@ const InvoicesList = () => {
               <div className="grid grid-cols-2 gap-2 mb-4 text-xs">
                 <div>
                   <p className="font-medium text-gray-600">Bill To:</p>
-                  <p className="font-semibold text-gray-800">
+                  <p className="font-semibold text-gray-800 mb-2">
                     {invoice.bill_to}
+                  </p>
+                  <p className="font-medium text-gray-600">Phone No:</p>
+                  <p className="font-semibold text-gray-800">
+                    {invoice.po_number}
                   </p>
                 </div>
                 <div className="text-right">
