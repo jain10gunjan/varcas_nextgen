@@ -13,7 +13,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
         {/* Logo */}
         <a href="/" className="flex-none">
-          <img src="./mm.png" className="w-28 md:w-32 h-auto" alt="Logo" />
+          <img src="/mm.png" className="w-28 md:w-32 h-auto" alt="Logo" />
         </a>
 
         {/* Mobile Menu Button */}
