@@ -449,17 +449,17 @@ const InvoicesList = () => {
                     <img
                       src="/mm.png"
                       alt="Company Logo"
-                      className="h-16 w-16 object-contain"
+                      className="h-32 w-32 object-contain"
                     />
                     <h2 className="text-xl font-bold text-blue-900 mt-2">
-                      VARCASNEXGEN
+                      VARCAS NEXGEN
                     </h2>
                     <p className="text-xs text-gray-600">
-                      Professional Digital Marketing Services
+                      Digital Marketing & IT Services
                     </p>
                   </div>
                   <div className="text-right">
-                    <h1 className="text-2xl font-bold text-blue-800 mb-2">
+                    <h1 className="text-4xl font-bold text-blue-800 mb-2">
                       INVOICE
                     </h1>
                     <div className="space-y-1 text-xs">
