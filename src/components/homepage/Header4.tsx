@@ -406,7 +406,7 @@ const Header4 = () => {
             </div>
           </div>
         </div>
-
+        {/* 
         <div className="mt-6 md:mt-12 py-3 flex items-center text-sm text-gray-800 gap-x-1.5 after:flex-1 after:border-t after:border-gray-200 after:ms-6">
           <span className="font-semibold bg-clip-text bg-gradient-to-l from-blue-600 to-violet-500 text-transparent"></span>
           Individuals and Companies That Trust VarCas NexGen
@@ -441,7 +441,7 @@ const Header4 = () => {
             src={`./easymedico_cover.png`}
           />
           <img className="md:w-48 w-24" alt="image" src={`./Logobankpan.png`} />
-        </div>
+        </div> */}
       </div>
     </div>
   );
