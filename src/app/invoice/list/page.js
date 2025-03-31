@@ -667,6 +667,22 @@ const InvoicesList = () => {
                 </div>
               )}
 
+              <div className="border p-3 rounded-lg mb-2">
+                <h3 className="text-sm font-semibold text-gray-800 border-b pb-2 mb-3 bg-gray-100 p-2 rounded-t-md">
+                  Notes & Terms:
+                </h3>
+                {invoice.notes && (
+                  <p className="text-left text-xs text-gray-600 mt-2">
+                    {invoice.notes}
+                  </p>
+                )}
+                {invoice.terms && (
+                  <p className="text-left text-xs text-gray-600 mt-2">
+                    {invoice.terms}
+                  </p>
+                )}
+              </div>
+
               {/* Payment and Bank Details */}
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div className="border p-3 rounded-lg">
