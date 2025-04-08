@@ -139,230 +139,11 @@ const InvoicesList = () => {
     }
   };
 
-  // const InvoiceReceiptModal = ({ invoice, onClose }) => {
-  //   const [installments, setInstallments] = useState([]);
-
-  //   useEffect(() => {
-  //     const fetchInstallments = async () => {
-  //       const { data, error } = await supabase
-  //         .from("installments")
-  //         .select("*")
-  //         .eq("invoice_id", invoice.id)
-  //         .order("payment_date", { ascending: false });
-  //       if (error) {
-  //         console.error("Error fetching installments:", error);
-  //         return;
-  //       }
-  //       setInstallments(data || []);
-  //     };
-  //     fetchInstallments();
-  //   }, [invoice.id]);
-
-  //   const remainingFee = invoice.balance_due;
-  //   const nextDueDate = invoice.due_date;
-
-  //   return (
-  //     <div className="fixed inset-0 bg-gray-900/80 flex items-center justify-center z-50 overflow-y-auto">
-  //       <div
-  //         ref={targetRef}
-  //         className="bg-white rounded-lg shadow-2xl w-[210mm] max-w-full p-8 my-8 border border-gray-200 mt-48"
-  //       >
-  //         {/* Header Section */}
-  //         <div className="border-b pb-4 mb-6">
-  //           <div className="flex justify-between items-center">
-  //             <div>
-  //               <img
-  //                 src="/mm.png"
-  //                 alt="Company Logo"
-  //                 className="h-24 w-24 object-contain"
-  //               />
-  //               <h2 className="text-2xl font-bold text-blue-900 mt-2">
-  //                 VARCASNEXGEN
-  //               </h2>
-  //               <p className="text-sm text-gray-600">
-  //                 Professional Digital Marketing Services
-  //               </p>
-  //             </div>
-  //             <div className="text-right">
-  //               <h1 className="text-3xl font-bold text-blue-800 mb-2">
-  //                 PAYMENT RECEIPT
-  //               </h1>
-  //               <div className="space-y-1">
-  //                 <p className="text-sm">
-  //                   <strong>Receipt No:</strong> {invoice.invoice_number}
-  //                 </p>
-  //                 <p className="text-sm">
-  //                   <strong>Date of Issue:</strong>{" "}
-  //                   {new Date().toLocaleDateString()}
-  //                 </p>
-  //               </div>
-  //             </div>
-  //           </div>
-  //         </div>
-
-  //         {/* Bill To and Payment Details */}
-  //         <div className="grid grid-cols-2 gap-4 mb-6">
-  //           <div>
-  //             <h3 className="font-semibold text-gray-700 mb-2">Bill To:</h3>
-  //             <p className="text-lg text-gray-900">{invoice.bill_to}</p>
-  //           </div>
-  //           <div className="text-right">
-  //             <h3 className="font-semibold text-gray-700 mb-2">
-  //               Payment Details
-  //             </h3>
-  //             <p className="text-sm text-gray-600">
-  //               Next Due Date: {new Date(nextDueDate).toLocaleDateString()}
-  //             </p>
-  //           </div>
-  //         </div>
-
-  //         {/* Service Summary */}
-  //         <div className="mb-6">
-  //           <h3 className="font-semibold text-lg border-b pb-2 mb-4 text-gray-800">
-  //             Service Summary
-  //           </h3>
-  //           <table className="w-full text-sm">
-  //             <tbody>
-  //               <tr className="border-b">
-  //                 <td className="p-2 text-gray-700">Service Name</td>
-  //                 <td className="p-2 text-right font-medium">
-  //                   {invoice.items[0].description}
-  //                 </td>
-  //               </tr>
-  //               <tr className="border-b">
-  //                 <td className="p-2 text-gray-700">Quantity</td>
-  //                 <td className="p-2 text-right">
-  //                   {invoice.items[0].quantity}
-  //                 </td>
-  //               </tr>
-  //               <tr className="border-b">
-  //                 <td className="p-2 text-gray-700">Rate</td>
-  //                 <td className="p-2 text-right">
-  //                   ₹{invoice.items[0].rate.toLocaleString()}
-  //                 </td>
-  //               </tr>
-  //               <tr className="border-b">
-  //                 <td className="p-2 text-red-600 font-semibold">
-  //                   Remaining Fee
-  //                 </td>
-  //                 <td className="p-2 text-right text-red-600 font-semibold">
-  //                   ₹{remainingFee.toLocaleString()}
-  //                 </td>
-  //               </tr>
-  //             </tbody>
-  //           </table>
-  //         </div>
-
-  //         {/* Payment and Bank Details Section */}
-  //         <div className="grid grid-cols-2 gap-6 mb-6">
-  //           {/* QR Code Section */}
-  //           <div className="border p-4 rounded-lg">
-  //             <h3 className="font-semibold text-lg border-b pb-2 mb-4 text-gray-800">
-  //               Scan to Pay
-  //             </h3>
-
-  //             <p className="text-center text-xs text-gray-600 mt-2">
-  //               Scan QR Code for Instant Payment
-  //             </p>
-  //           </div>
-
-  //           {/* Bank Details Section */}
-  //           <div className="border p-4 rounded-lg">
-  //             <h3 className="font-semibold text-lg border-b pb-2 mb-4 text-gray-800">
-  //               Bank Details
-  //             </h3>
-  //             <table className="w-full text-sm">
-  //               <tbody>
-  //                 <tr className="border-b">
-  //                   <td className="p-2 text-gray-700">Account Name</td>
-  //                   <td className="p-2 text-right">VARCASNEXGEN</td>
-  //                 </tr>
-  //                 <tr className="border-b">
-  //                   <td className="p-2 text-gray-700">Bank Name</td>
-  //                   <td className="p-2 text-right">HDFC Bank</td>
-  //                 </tr>
-  //                 <tr className="border-b">
-  //                   <td className="p-2 text-gray-700">Account Number</td>
-  //                   <td className="p-2 text-right">50100123456789</td>
-  //                 </tr>
-  //                 <tr className="border-b">
-  //                   <td className="p-2 text-gray-700">IFSC Code</td>
-  //                   <td className="p-2 text-right">HDFC0001234</td>
-  //                 </tr>
-  //                 <tr>
-  //                   <td className="p-2 text-gray-700">Branch</td>
-  //                   <td className="p-2 text-right">Digital Branch</td>
-  //                 </tr>
-  //               </tbody>
-  //             </table>
-  //           </div>
-  //         </div>
-
-  //         {/* Installment Payment History */}
-  //         <div className="mb-6">
-  //           <h3 className="font-semibold text-lg border-b pb-2 mb-4 text-gray-800">
-  //             Installment Payment History
-  //           </h3>
-  //           <table className="w-full text-sm">
-  //             <thead>
-  //               <tr className="bg-gray-100">
-  //                 <th className="p-2 text-left text-gray-700">Installment</th>
-  //                 <th className="p-2 text-right text-gray-700">Date</th>
-  //                 <th className="p-2 text-right text-gray-700">Amount (₹)</th>
-  //               </tr>
-  //             </thead>
-  //             <tbody>
-  //               {installments.map((inst, index) => (
-  //                 <tr key={inst.id} className="border-b">
-  //                   <td className="p-2 text-gray-700">
-  //                     Installment {index + 1}
-  //                   </td>
-  //                   <td className="p-2 text-right text-gray-600">
-  //                     {new Date(inst.payment_date).toLocaleDateString()}
-  //                   </td>
-  //                   <td className="p-2 text-right text-gray-900">
-  //                     ₹{inst.amount.toLocaleString()}
-  //                   </td>
-  //                 </tr>
-  //               ))}
-  //             </tbody>
-  //           </table>
-  //         </div>
-
-  //         {/* Footer Section */}
-  //         <div className="border-t pt-4 mt-6 text-right">
-  //           <p className="text-sm text-gray-600 italic">
-  //             Official receipt by VARCASNEXGEN. Please retain for your records.
-  //           </p>
-  //           <p className="text-sm text-gray-700 mt-2">
-  //             <strong>Authorized Signatory</strong>
-  //           </p>
-  //         </div>
-  //       </div>
-  //       {/* Action Buttons */}
-  //       <div className="flex justify-end space-x-4 mt-6">
-  //         <button
-  //           onClick={() => toPDF({ targetRef })}
-  //           className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-  //         >
-  //           Download PDF
-  //         </button>
-  //         <button
-  //           onClick={onClose}
-  //           className="px-6 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors"
-  //         >
-  //           Close
-  //         </button>
-  //       </div>
-  //     </div>
-  //   );
-  // };
-
   const InvoiceReceiptModal = ({ invoice, onClose }) => {
     const [installments, setInstallments] = useState([]);
     const [selectedInstallment, setSelectedInstallment] = useState(null);
     const [showFullReceipt, setShowFullReceipt] = useState(true);
-
+  
     useEffect(() => {
       const fetchInstallments = async () => {
         const { data, error } = await supabase
@@ -377,16 +158,16 @@ const InvoicesList = () => {
         setInstallments(data || []);
       };
       fetchInstallments();
-    }, [invoice.id, supabase]);
-
-    // Calculate total paid amount from all installments
+    }, [invoice.id]);
+  
     const totalPaid = installments.reduce((sum, inst) => sum + inst.amount, 0);
-    const remainingFee = invoice.subtotal - totalPaid; // Correct remaining fee
+    const discount = invoice.discount || 0; // Default to 0 if no discount
+    const remainingFee = invoice.total - totalPaid; // Use total instead of subtotal
     const nextDueDate =
       invoice.due_date ||
       new Date(new Date().setMonth(new Date().getMonth() + 1))
         .toISOString()
-        .split("T")[0]; // Default to 1 month later
+        .split("T")[0];
 
     const handleShowFullReceipt = () => {
       setSelectedInstallment(null);
@@ -502,62 +283,58 @@ const InvoicesList = () => {
                 <>
                   {/* Service Summary */}
                   <div className="mb-4">
-                    <h3 className="text-sm font-semibold text-gray-800 mb-2 bg-gray-100 p-2 rounded-t-md">
-                      Service Summary
-                    </h3>
-                    <table className="w-full border-collapse text-xs">
-                      <thead>
-                        <tr className="bg-blue-100">
-                          <th className="border p-1 text-left font-medium text-gray-700">
-                            Description
-                          </th>
-                          <th className="border p-1 text-right font-medium text-gray-700">
-                            Quantity
-                          </th>
-                          <th className="border p-1 text-right font-medium text-gray-700">
-                            Rate (₹)
-                          </th>
-                          <th className="border p-1 text-right font-medium text-gray-700">
-                            Amount (₹)
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {invoice.items.map((item, index) => (
-                          <tr key={index}>
-                            <td className="border p-1 text-gray-600">
-                              {item.description}
-                            </td>
-                            <td className="border p-1 text-right text-gray-800">
-                              {item.quantity}
-                            </td>
-                            <td className="border p-1 text-right text-gray-800">
-                              ₹{item.rate.toLocaleString()}
-                            </td>
-                            <td className="border p-1 text-right text-gray-800">
-                              ₹{(item.quantity * item.rate).toLocaleString()}
-                            </td>
-                          </tr>
-                        ))}
-                        <tr className="font-bold bg-gray-50">
-                          <td colSpan="3" className="border p-1 text-gray-700">
-                            Total Fee
-                          </td>
-                          <td className="border p-1 text-right text-red-600">
-                            ₹{invoice.subtotal.toLocaleString()}
+                  <h3 className="text-sm font-semibold text-gray-800 mb-2 bg-gray-100 p-2 rounded-t-md">
+                    Service Summary
+                  </h3>
+                  <table className="w-full border-collapse text-xs">
+                    <thead>
+                      <tr className="bg-blue-100">
+                        <th className="border p-1 text-left font-medium text-gray-700">Description</th>
+                        <th className="border p-1 text-right font-medium text-gray-700">Quantity</th>
+                        <th className="border p-1 text-right font-medium text-gray-700">Rate (₹)</th>
+                        <th className="border p-1 text-right font-medium text-gray-700">Amount (₹)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {invoice.items.map((item, index) => (
+                        <tr key={index}>
+                          <td className="border p-1 text-gray-600">{item.description}</td>
+                          <td className="border p-1 text-right text-gray-800">{item.quantity}</td>
+                          <td className="border p-1 text-right text-gray-800">₹{item.rate.toLocaleString()}</td>
+                          <td className="border p-1 text-right text-gray-800">
+                            ₹{(item.quantity * item.rate).toLocaleString()}
                           </td>
                         </tr>
+                      ))}
+                      <tr className="font-bold bg-gray-50">
+                        <td colSpan="3" className="border p-1 text-gray-700">Subtotal</td>
+                        <td className="border p-1 text-right text-gray-800">
+                          ₹{invoice.subtotal.toLocaleString()}
+                        </td>
+                      </tr>
+                      {discount > 0 && (
                         <tr className="font-semibold bg-gray-50">
-                          <td colSpan="3" className="border p-1 text-gray-700">
-                            Remaining Fee
-                          </td>
-                          <td className="border p-1 text-right text-red-600">
-                            ₹{remainingFee.toLocaleString()}
+                          <td colSpan="3" className="border p-1 text-gray-700">Discount</td>
+                          <td className="border p-1 text-right text-green-600">
+                            -₹{discount.toLocaleString()}
                           </td>
                         </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                      )}
+                      <tr className="font-bold bg-gray-50">
+                        <td colSpan="3" className="border p-1 text-gray-700">Total Fee</td>
+                        <td className="border p-1 text-right text-red-600">
+                          ₹{invoice.total.toLocaleString()}
+                        </td>
+                      </tr>
+                      <tr className="font-semibold bg-gray-50">
+                        <td colSpan="3" className="border p-1 text-gray-700">Remaining Fee</td>
+                        <td className="border p-1 text-right text-red-600">
+                          ₹{remainingFee.toLocaleString()}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
                   {/* Installment Payment History */}
                   {installments.length > 0 && (
@@ -884,7 +661,8 @@ const InvoicesList = () => {
 
   const EditModal = ({ invoice, onClose }) => {
     const [installments, setInstallments] = useState([]);
-
+    const [discount, setDiscount] = useState(invoice.discount || 0); // New discount state
+  
     useEffect(() => {
       const fetchInstallments = async () => {
         const { data, error } = await supabase
@@ -900,7 +678,47 @@ const InvoicesList = () => {
       };
       fetchInstallments();
     }, [invoice.id]);
-
+  
+    const handleAddDiscount = async () => {
+      const discountAmount = parseFloat(discount) || 0;
+      if (discountAmount < 0 || discountAmount > invoice.subtotal) {
+        toast.error("Invalid discount amount");
+        return;
+      }
+  
+      const newTotal = invoice.subtotal - discountAmount + (invoice.tax || 0) + (invoice.shipping || 0);
+      const newBalanceDue = newTotal - invoice.amount_paid;
+  
+      try {
+        const { error } = await supabase.from("invoices").upsert({
+          id: invoice.id,
+          discount: discountAmount, // Save discount to the database
+          total: newTotal, // Recalculated total
+          balance_due: newBalanceDue,
+          amount_paid: invoice.amount_paid,
+          invoice_number: invoice.invoice_number,
+          bill_to: invoice.bill_to,
+          ship_to: invoice.ship_to,
+          payment_terms: invoice.payment_terms,
+          due_date: invoice.due_date,
+          po_number: invoice.po_number,
+          items: invoice.items,
+          notes: invoice.notes,
+          terms: invoice.terms,
+          subtotal: invoice.subtotal,
+          tax: invoice.tax,
+          shipping: invoice.shipping,
+        });
+  
+        if (error) throw error;
+  
+        toast.success("Discount applied successfully!");
+        await fetchInvoices();
+      } catch (error) {
+        toast.error("Failed to apply discount: " + error.message);
+      }
+    };
+  
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
         <div className="bg-white rounded-lg shadow-2xl w-1/2 p-6">
@@ -908,10 +726,32 @@ const InvoicesList = () => {
             Edit Invoice: {invoice.invoice_number}
           </h2>
           <div className="mb-4">
-            <p>Total: ₹{invoice.total.toFixed(2)}</p>
+            <p>Subtotal: ₹{invoice.subtotal.toFixed(2)}</p>
+            <p>Discount: ₹{discount|| 0}</p>
+            <p>Total: ₹{(invoice.subtotal - discount + (invoice.tax || 0) + (invoice.shipping || 0)).toFixed(2)}</p>
             <p>Amount Paid: ₹{invoice.amount_paid.toFixed(2)}</p>
             <p>Balance Due: ₹{invoice.balance_due.toFixed(2)}</p>
           </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Apply Discount
+            </label>
+            <input
+              type="number"
+              step="100"
+              value={discount}
+              onChange={(e) => setDiscount(e.target.value)}
+              placeholder="Enter discount amount"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+            />
+            <button
+              onClick={handleAddDiscount}
+              className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Apply Discount
+            </button>
+          </div>
+          {/* Existing installment section remains unchanged */}
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Add Installment
@@ -931,41 +771,7 @@ const InvoicesList = () => {
               Add Payment
             </button>
           </div>
-          <div className="mb-4">
-            <h3 className="font-semibold mb-2">Payment History</h3>
-            <table className="w-full">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="p-2 text-left">Date</th>
-                  <th className="p-2 text-right">Amount</th>
-                  <th className="p-2 text-right">Receipt #</th>
-                </tr>
-              </thead>
-              <tbody>
-                {installments.map((inst) => (
-                  <tr key={inst.id} className="border-b">
-                    <td className="p-2">
-                      {new Date(inst.payment_date).toLocaleDateString()}
-                    </td>
-                    <td className="p-2 text-right">
-                      ₹{inst.amount.toFixed(2)}
-                    </td>
-                    <td className="p-2 text-right">{inst.receipt_number}</td>
-                    {/* <td className="p-2 text-right">
-                      <button
-                        onClick={() =>
-                          setSelectedInstallment({ installment: inst, invoice })
-                        }
-                        className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                      >
-                        View Receipt
-                      </button>
-                    </td> */}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          {/* Payment History table remains unchanged */}
           <button
             onClick={onClose}
             className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
