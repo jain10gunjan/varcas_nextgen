@@ -71,7 +71,7 @@ const InvoicesList = () => {
     const [selectedInstallmentIndex, setSelectedInstallmentIndex] =
       useState(null);
     const [showFullReceipt, setShowFullReceipt] = useState(true);
-
+  
     useEffect(() => {
       const fetchInstallments = async () => {
         const { data, error } = await supabase
@@ -95,6 +95,7 @@ const InvoicesList = () => {
       invoice.due_date ||
       new Date(new Date().setMonth(new Date().getMonth() + 1))
         .toISOString()
+        .split("T")[0];
         .split("T")[0];
 
     const handleShowFullReceipt = () => {
@@ -272,16 +273,27 @@ const InvoicesList = () => {
                           </td>
                         </tr>
                         <tr className="font-semibold bg-gray-50">
-                          <td colSpan="3" className="border p-1 text-gray-700">
-                            Remaining Fee
-                          </td>
-                          <td className="border p-1 text-right text-red-600">
-                            ₹{remainingFee.toLocaleString()}
+                          <td colSpan="3" className="border p-1 text-gray-700">Discount</td>
+                          <td className="border p-1 text-right text-green-600">
+                            -₹{discount.toLocaleString()}
                           </td>
                         </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                      )}
+                      <tr className="font-bold bg-gray-50">
+                        <td colSpan="3" className="border p-1 text-gray-700">Total Fee</td>
+                        <td className="border p-1 text-right text-red-600">
+                          ₹{invoice.total.toLocaleString()}
+                        </td>
+                      </tr>
+                      <tr className="font-semibold bg-gray-50">
+                        <td colSpan="3" className="border p-1 text-gray-700">Remaining Fee</td>
+                        <td className="border p-1 text-right text-red-600">
+                          ₹{remainingFee.toLocaleString()}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
 
                   {installments.length > 0 && (
                     <div className="mb-4">
