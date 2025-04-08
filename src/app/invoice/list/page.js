@@ -4,7 +4,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { usePDF } from "react-to-pdf";
 import toast, { Toaster } from "react-hot-toast";
-import { X, Download } from "lucide-react"; // Assuming you're using lucide-react for icons
+import { X, Download } from "lucide-react";
+
 const supabase = createClient(
   "https://zhfsqnuwsqxfnlsarxci.supabase.co",
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpoZnNxbnV3c3F4Zm5sc2FyeGNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzMxMjM5MzYsImV4cCI6MjA0ODY5OTkzNn0.p0Ca61wV-4xZ2Zx7XdaAjVtMaq4HxSjnatvKn7nQXkE"
@@ -18,13 +19,11 @@ const InvoicesList = () => {
   const [searchInvoiceNumber, setSearchInvoiceNumber] = useState("");
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [editInvoice, setEditInvoice] = useState(null);
-  const [installmentAmount, setInstallmentAmount] = useState("");
   const [selectedInstallment, setSelectedInstallment] = useState(null);
 
   const invoiceReceiptRef = useRef();
   const installmentReceiptRef = useRef();
-
-  const { toPDF, targetRef } = usePDF({ filename: "page.pdf" });
+  const { toPDF, targetRef } = usePDF({ filename: "invoice.pdf" });
 
   useEffect(() => {
     fetchInvoices();
@@ -67,300 +66,10 @@ const InvoicesList = () => {
     toast.success("Invoices filtered successfully!");
   };
 
-  const handleAddInstallment = async (invoiceId) => {
-    if (
-      !installmentAmount ||
-      isNaN(parseFloat(installmentAmount)) ||
-      parseFloat(installmentAmount) <= 0
-    ) {
-      toast.error("Please enter a valid installment amount");
-      return;
-    }
-
-    const amount = parseFloat(installmentAmount);
-    const selected = invoices.find((inv) => inv.id === invoiceId);
-
-    if (amount > selected.balance_due) {
-      toast.error("Installment amount cannot exceed balance due");
-      return;
-    }
-
-    try {
-      const receiptNumber = `REC-${Date.now()}`;
-      const newBalance = Number(selected.balance_due) - amount;
-      const newAmountPaid = Number(selected.amount_paid) + amount;
-
-      const { error: upsertError } = await supabase.from("invoices").upsert(
-        {
-          id: invoiceId,
-          balance_due: newBalance,
-          amount_paid: newAmountPaid,
-          invoice_number: selected.invoice_number,
-          bill_to: selected.bill_to,
-          ship_to: selected.ship_to,
-          payment_terms: selected.payment_terms,
-          due_date: selected.due_date,
-          po_number: selected.po_number,
-          items: selected.items,
-          notes: selected.notes,
-          terms: selected.terms,
-          subtotal: selected.subtotal,
-          tax: selected.tax,
-          shipping: selected.shipping,
-          total: selected.total,
-        },
-        { onConflict: "id" }
-      );
-
-      if (upsertError) {
-        throw new Error(`Failed to upsert invoice: ${upsertError.message}`);
-      }
-
-      const { error: insertError } = await supabase
-        .from("installments")
-        .insert({
-          invoice_id: invoiceId,
-          amount: amount,
-          payment_date: new Date().toISOString(),
-          receipt_number: receiptNumber,
-        });
-
-      if (insertError) {
-        throw new Error(`Failed to insert installment: ${insertError.message}`);
-      }
-
-      toast.success("Installment added and invoice updated successfully!");
-      setInstallmentAmount("");
-      await fetchInvoices();
-      setEditInvoice(null);
-    } catch (error) {
-      toast.error(error.message);
-      console.error("Error in handleAddInstallment:", error);
-    }
-  };
-
-  // const InvoiceReceiptModal = ({ invoice, onClose }) => {
-  //   const [installments, setInstallments] = useState([]);
-
-  //   useEffect(() => {
-  //     const fetchInstallments = async () => {
-  //       const { data, error } = await supabase
-  //         .from("installments")
-  //         .select("*")
-  //         .eq("invoice_id", invoice.id)
-  //         .order("payment_date", { ascending: false });
-  //       if (error) {
-  //         console.error("Error fetching installments:", error);
-  //         return;
-  //       }
-  //       setInstallments(data || []);
-  //     };
-  //     fetchInstallments();
-  //   }, [invoice.id]);
-
-  //   const remainingFee = invoice.balance_due;
-  //   const nextDueDate = invoice.due_date;
-
-  //   return (
-  //     <div className="fixed inset-0 bg-gray-900/80 flex items-center justify-center z-50 overflow-y-auto">
-  //       <div
-  //         ref={targetRef}
-  //         className="bg-white rounded-lg shadow-2xl w-[210mm] max-w-full p-8 my-8 border border-gray-200 mt-48"
-  //       >
-  //         {/* Header Section */}
-  //         <div className="border-b pb-4 mb-6">
-  //           <div className="flex justify-between items-center">
-  //             <div>
-  //               <img
-  //                 src="/mm.png"
-  //                 alt="Company Logo"
-  //                 className="h-24 w-24 object-contain"
-  //               />
-  //               <h2 className="text-2xl font-bold text-blue-900 mt-2">
-  //                 VARCASNEXGEN
-  //               </h2>
-  //               <p className="text-sm text-gray-600">
-  //                 Professional Digital Marketing Services
-  //               </p>
-  //             </div>
-  //             <div className="text-right">
-  //               <h1 className="text-3xl font-bold text-blue-800 mb-2">
-  //                 PAYMENT RECEIPT
-  //               </h1>
-  //               <div className="space-y-1">
-  //                 <p className="text-sm">
-  //                   <strong>Receipt No:</strong> {invoice.invoice_number}
-  //                 </p>
-  //                 <p className="text-sm">
-  //                   <strong>Date of Issue:</strong>{" "}
-  //                   {new Date().toLocaleDateString()}
-  //                 </p>
-  //               </div>
-  //             </div>
-  //           </div>
-  //         </div>
-
-  //         {/* Bill To and Payment Details */}
-  //         <div className="grid grid-cols-2 gap-4 mb-6">
-  //           <div>
-  //             <h3 className="font-semibold text-gray-700 mb-2">Bill To:</h3>
-  //             <p className="text-lg text-gray-900">{invoice.bill_to}</p>
-  //           </div>
-  //           <div className="text-right">
-  //             <h3 className="font-semibold text-gray-700 mb-2">
-  //               Payment Details
-  //             </h3>
-  //             <p className="text-sm text-gray-600">
-  //               Next Due Date: {new Date(nextDueDate).toLocaleDateString()}
-  //             </p>
-  //           </div>
-  //         </div>
-
-  //         {/* Service Summary */}
-  //         <div className="mb-6">
-  //           <h3 className="font-semibold text-lg border-b pb-2 mb-4 text-gray-800">
-  //             Service Summary
-  //           </h3>
-  //           <table className="w-full text-sm">
-  //             <tbody>
-  //               <tr className="border-b">
-  //                 <td className="p-2 text-gray-700">Service Name</td>
-  //                 <td className="p-2 text-right font-medium">
-  //                   {invoice.items[0].description}
-  //                 </td>
-  //               </tr>
-  //               <tr className="border-b">
-  //                 <td className="p-2 text-gray-700">Quantity</td>
-  //                 <td className="p-2 text-right">
-  //                   {invoice.items[0].quantity}
-  //                 </td>
-  //               </tr>
-  //               <tr className="border-b">
-  //                 <td className="p-2 text-gray-700">Rate</td>
-  //                 <td className="p-2 text-right">
-  //                   ₹{invoice.items[0].rate.toLocaleString()}
-  //                 </td>
-  //               </tr>
-  //               <tr className="border-b">
-  //                 <td className="p-2 text-red-600 font-semibold">
-  //                   Remaining Fee
-  //                 </td>
-  //                 <td className="p-2 text-right text-red-600 font-semibold">
-  //                   ₹{remainingFee.toLocaleString()}
-  //                 </td>
-  //               </tr>
-  //             </tbody>
-  //           </table>
-  //         </div>
-
-  //         {/* Payment and Bank Details Section */}
-  //         <div className="grid grid-cols-2 gap-6 mb-6">
-  //           {/* QR Code Section */}
-  //           <div className="border p-4 rounded-lg">
-  //             <h3 className="font-semibold text-lg border-b pb-2 mb-4 text-gray-800">
-  //               Scan to Pay
-  //             </h3>
-
-  //             <p className="text-center text-xs text-gray-600 mt-2">
-  //               Scan QR Code for Instant Payment
-  //             </p>
-  //           </div>
-
-  //           {/* Bank Details Section */}
-  //           <div className="border p-4 rounded-lg">
-  //             <h3 className="font-semibold text-lg border-b pb-2 mb-4 text-gray-800">
-  //               Bank Details
-  //             </h3>
-  //             <table className="w-full text-sm">
-  //               <tbody>
-  //                 <tr className="border-b">
-  //                   <td className="p-2 text-gray-700">Account Name</td>
-  //                   <td className="p-2 text-right">VARCASNEXGEN</td>
-  //                 </tr>
-  //                 <tr className="border-b">
-  //                   <td className="p-2 text-gray-700">Bank Name</td>
-  //                   <td className="p-2 text-right">HDFC Bank</td>
-  //                 </tr>
-  //                 <tr className="border-b">
-  //                   <td className="p-2 text-gray-700">Account Number</td>
-  //                   <td className="p-2 text-right">50100123456789</td>
-  //                 </tr>
-  //                 <tr className="border-b">
-  //                   <td className="p-2 text-gray-700">IFSC Code</td>
-  //                   <td className="p-2 text-right">HDFC0001234</td>
-  //                 </tr>
-  //                 <tr>
-  //                   <td className="p-2 text-gray-700">Branch</td>
-  //                   <td className="p-2 text-right">Digital Branch</td>
-  //                 </tr>
-  //               </tbody>
-  //             </table>
-  //           </div>
-  //         </div>
-
-  //         {/* Installment Payment History */}
-  //         <div className="mb-6">
-  //           <h3 className="font-semibold text-lg border-b pb-2 mb-4 text-gray-800">
-  //             Installment Payment History
-  //           </h3>
-  //           <table className="w-full text-sm">
-  //             <thead>
-  //               <tr className="bg-gray-100">
-  //                 <th className="p-2 text-left text-gray-700">Installment</th>
-  //                 <th className="p-2 text-right text-gray-700">Date</th>
-  //                 <th className="p-2 text-right text-gray-700">Amount (₹)</th>
-  //               </tr>
-  //             </thead>
-  //             <tbody>
-  //               {installments.map((inst, index) => (
-  //                 <tr key={inst.id} className="border-b">
-  //                   <td className="p-2 text-gray-700">
-  //                     Installment {index + 1}
-  //                   </td>
-  //                   <td className="p-2 text-right text-gray-600">
-  //                     {new Date(inst.payment_date).toLocaleDateString()}
-  //                   </td>
-  //                   <td className="p-2 text-right text-gray-900">
-  //                     ₹{inst.amount.toLocaleString()}
-  //                   </td>
-  //                 </tr>
-  //               ))}
-  //             </tbody>
-  //           </table>
-  //         </div>
-
-  //         {/* Footer Section */}
-  //         <div className="border-t pt-4 mt-6 text-right">
-  //           <p className="text-sm text-gray-600 italic">
-  //             Official receipt by VARCASNEXGEN. Please retain for your records.
-  //           </p>
-  //           <p className="text-sm text-gray-700 mt-2">
-  //             <strong>Authorized Signatory</strong>
-  //           </p>
-  //         </div>
-  //       </div>
-  //       {/* Action Buttons */}
-  //       <div className="flex justify-end space-x-4 mt-6">
-  //         <button
-  //           onClick={() => toPDF({ targetRef })}
-  //           className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-  //         >
-  //           Download PDF
-  //         </button>
-  //         <button
-  //           onClick={onClose}
-  //           className="px-6 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors"
-  //         >
-  //           Close
-  //         </button>
-  //       </div>
-  //     </div>
-  //   );
-  // };
-
   const InvoiceReceiptModal = ({ invoice, onClose }) => {
     const [installments, setInstallments] = useState([]);
-    const [selectedInstallment, setSelectedInstallment] = useState(null);
+    const [selectedInstallmentIndex, setSelectedInstallmentIndex] =
+      useState(null);
     const [showFullReceipt, setShowFullReceipt] = useState(true);
 
     useEffect(() => {
@@ -377,31 +86,30 @@ const InvoicesList = () => {
         setInstallments(data || []);
       };
       fetchInstallments();
-    }, [invoice.id, supabase]);
+    }, [invoice.id]);
 
-    // Calculate total paid amount from all installments
     const totalPaid = installments.reduce((sum, inst) => sum + inst.amount, 0);
-    const remainingFee = invoice.subtotal - totalPaid; // Correct remaining fee
+    const discount = invoice.discount || 0;
+    const remainingFee = invoice.total - totalPaid;
     const nextDueDate =
       invoice.due_date ||
       new Date(new Date().setMonth(new Date().getMonth() + 1))
         .toISOString()
-        .split("T")[0]; // Default to 1 month later
+        .split("T")[0];
 
     const handleShowFullReceipt = () => {
-      setSelectedInstallment(null);
+      setSelectedInstallmentIndex(null);
       setShowFullReceipt(true);
     };
 
     const handleShowInstallment = (index) => {
-      setSelectedInstallment(index);
+      setSelectedInstallmentIndex(index);
       setShowFullReceipt(false);
     };
 
     return (
       <div className="fixed inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-6 overflow-y-auto">
         <div className="bg-white max-w-5xl w-full flex rounded-lg shadow-xl overflow-hidden pt-16">
-          {/* Sidebar */}
           <div className="w-64 bg-gray-50 border-r border-gray-200 p-4 overflow-y-auto h-[80vh]">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 border-b pb-2 bg-blue-50 p-2 rounded-t-md">
               Payment Records
@@ -424,7 +132,7 @@ const InvoicesList = () => {
                   <button
                     onClick={() => handleShowInstallment(index)}
                     className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium ${
-                      selectedInstallment === index && !showFullReceipt
+                      selectedInstallmentIndex === index && !showFullReceipt
                         ? "bg-blue-100 text-blue-800"
                         : "text-gray-700 hover:bg-gray-100"
                     }`}
@@ -436,13 +144,11 @@ const InvoicesList = () => {
             </ul>
           </div>
 
-          {/* Main Content */}
           <div className="flex-1 p-6 relative">
             <div
               ref={targetRef}
               className="bg-white mt-2 p-8 w-[210mm] border-2 border-gray-800 mx-auto relative"
             >
-              {/* Header Section */}
               <div className="border-b-2 border-gray-300 pb-2 mb-4 bg-blue-50 p-4 rounded-t-md">
                 <div className="flex justify-between items-center">
                   <div>
@@ -477,7 +183,6 @@ const InvoicesList = () => {
                 </div>
               </div>
 
-              {/* Bill To and Payment Details */}
               <div className="grid grid-cols-2 gap-2 mb-4 text-xs">
                 <div>
                   <p className="font-medium text-gray-600">Bill To:</p>
@@ -497,10 +202,8 @@ const InvoicesList = () => {
                 </div>
               </div>
 
-              {/* Content based on selection */}
               {showFullReceipt ? (
                 <>
-                  {/* Service Summary */}
                   <div className="mb-4">
                     <h3 className="text-sm font-semibold text-gray-800 mb-2 bg-gray-100 p-2 rounded-t-md">
                       Service Summary
@@ -541,10 +244,31 @@ const InvoicesList = () => {
                         ))}
                         <tr className="font-bold bg-gray-50">
                           <td colSpan="3" className="border p-1 text-gray-700">
+                            Subtotal
+                          </td>
+                          <td className="border p-1 text-right text-gray-800">
+                            ₹{invoice.subtotal.toLocaleString()}
+                          </td>
+                        </tr>
+                        {discount > 0 && (
+                          <tr className="font-semibold bg-gray-50">
+                            <td
+                              colSpan="3"
+                              className="border p-1 text-gray-700"
+                            >
+                              Discount
+                            </td>
+                            <td className="border p-1 text-right text-green-600">
+                              -₹{discount.toLocaleString()}
+                            </td>
+                          </tr>
+                        )}
+                        <tr className="font-bold bg-gray-50">
+                          <td colSpan="3" className="border p-1 text-gray-700">
                             Total Fee
                           </td>
                           <td className="border p-1 text-right text-red-600">
-                            ₹{invoice.subtotal.toLocaleString()}
+                            ₹{invoice.total.toLocaleString()}
                           </td>
                         </tr>
                         <tr className="font-semibold bg-gray-50">
@@ -559,7 +283,6 @@ const InvoicesList = () => {
                     </table>
                   </div>
 
-                  {/* Installment Payment History */}
                   {installments.length > 0 && (
                     <div className="mb-4">
                       <h3 className="text-sm font-semibold text-gray-800 mb-2 bg-gray-100 p-2 rounded-t-md">
@@ -603,7 +326,7 @@ const InvoicesList = () => {
               ) : (
                 <div className="mb-4">
                   <h3 className="text-sm font-semibold text-gray-800 mb-2 bg-gray-100 p-2 rounded-t-md">
-                    Installment {selectedInstallment + 1} Details
+                    Installment {selectedInstallmentIndex + 1} Details
                   </h3>
                   <table className="w-full border-collapse text-xs">
                     <thead>
@@ -619,12 +342,12 @@ const InvoicesList = () => {
                     <tbody>
                       <tr>
                         <td className="border p-1 text-gray-600">
-                          Installment {selectedInstallment + 1} Amount
+                          Installment {selectedInstallmentIndex + 1} Amount
                         </td>
                         <td className="border p-1 text-right text-gray-800">
                           ₹
                           {installments[
-                            selectedInstallment
+                            selectedInstallmentIndex
                           ].amount.toLocaleString()}
                         </td>
                       </tr>
@@ -632,7 +355,7 @@ const InvoicesList = () => {
                         <td className="border p-1 text-gray-600">Date</td>
                         <td className="border p-1 text-right text-gray-800">
                           {new Date(
-                            installments[selectedInstallment].payment_date
+                            installments[selectedInstallmentIndex].payment_date
                           ).toLocaleDateString()}
                         </td>
                       </tr>
@@ -643,7 +366,7 @@ const InvoicesList = () => {
                         <td className="border p-1 text-right text-gray-800">
                           ₹
                           {installments
-                            .slice(0, selectedInstallment + 1)
+                            .slice(0, selectedInstallmentIndex + 1)
                             .reduce((sum, inst) => sum + inst.amount, 0)
                             .toLocaleString()}
                         </td>
@@ -655,9 +378,9 @@ const InvoicesList = () => {
                         <td className="border p-1 text-right text-red-600">
                           ₹
                           {(
-                            invoice.subtotal -
+                            invoice.total -
                             installments
-                              .slice(0, selectedInstallment + 1)
+                              .slice(0, selectedInstallmentIndex + 1)
                               .reduce((sum, inst) => sum + inst.amount, 0)
                           ).toLocaleString()}
                         </td>
@@ -683,7 +406,6 @@ const InvoicesList = () => {
                 )}
               </div>
 
-              {/* Payment and Bank Details */}
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div className="border p-3 rounded-lg">
                   <h3 className="text-sm font-semibold text-gray-800 border-b pb-2 mb-3 bg-gray-100 p-2 rounded-t-md">
@@ -732,21 +454,18 @@ const InvoicesList = () => {
                 </div>
               </div>
 
-              {/* Footer */}
               <div className="text-xs text-gray-500 border-t pt-2 text-right bg-gray-50 p-2 rounded-b-md">
                 <p>Official receipt by VARCASNEXGEN.</p>
                 <p>Retain for records.</p>
                 <p>info@varcasnexgen.com </p>
                 <p>A/L 163 housing board colony, pithampur</p>
                 +91 8602758854
-                <p></p>
               </div>
             </div>
 
-            {/* Action Buttons */}
             <div className="mt-6 flex justify-end gap-3">
               <button
-                onClick={() => toPDF({ targetRef })}
+                onClick={() => toPDF()}
                 className="bg-blue-600 text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-blue-700 transition"
               >
                 <Download size={16} /> Download PDF
@@ -765,10 +484,14 @@ const InvoicesList = () => {
   };
 
   const InstallmentReceiptModal = ({ installment, invoice, onClose }) => {
+    const { toPDF, targetRef } = usePDF({
+      filename: "installment-receipt.pdf",
+    });
+
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
         <div
-          ref={installmentReceiptRef}
+          ref={targetRef}
           className="bg-white rounded-lg shadow-2xl w-[210mm] p-8"
         >
           <div className="flex justify-between items-center mb-4">
@@ -863,9 +586,7 @@ const InvoicesList = () => {
 
           <div className="flex justify-end space-x-4">
             <button
-              onClick={() =>
-                toInstallmentPDF({ targetRef: installmentReceiptRef })
-              }
+              onClick={() => toPDF()}
               className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
             >
               Download PDF
@@ -882,8 +603,91 @@ const InvoicesList = () => {
     );
   };
 
+  const handleAddInstallment = async (invoiceId, installmentInput) => {
+    const installmentAmount = parseFloat(installmentInput || 0);
+    const invoice = invoices.find((inv) => inv.id === invoiceId);
+
+    if (!installmentAmount || installmentAmount <= 0) {
+      toast.error("Please enter a valid installment amount");
+      return;
+    }
+
+    if (installmentAmount > invoice.balance_due) {
+      toast.error("Installment amount cannot exceed balance due");
+      return;
+    }
+
+    try {
+      const receiptNumber = `REC-${Date.now()}`;
+      const newBalanceDue = invoice.balance_due - installmentAmount;
+      const newAmountPaid = (invoice.amount_paid || 0) + installmentAmount;
+
+      const { error: upsertError } = await supabase.from("invoices").upsert(
+        {
+          id: invoiceId,
+          invoice_number: invoice.invoice_number,
+          bill_to: invoice.bill_to,
+          due_date: invoice.due_date,
+          balance_due: newBalanceDue,
+          amount_paid: newAmountPaid,
+          discount: invoice.discount || 0,
+          subtotal: invoice.subtotal || 0,
+          total: invoice.total || 0,
+          ship_to: invoice.ship_to || "",
+          payment_terms: invoice.payment_terms || "",
+          po_number: invoice.po_number || "",
+          items: invoice.items || [],
+          notes: invoice.notes || "",
+          terms: invoice.terms || "",
+          tax: invoice.tax || 0,
+          shipping: invoice.shipping || 0,
+          created_at: invoice.created_at || new Date().toISOString(),
+        },
+        { onConflict: "id" }
+      );
+
+      if (upsertError)
+        throw new Error(`Failed to upsert invoice: ${upsertError.message}`);
+
+      const { data: installmentData, error: insertError } = await supabase
+        .from("installments")
+        .insert({
+          invoice_id: invoiceId,
+          amount: installmentAmount,
+          payment_date: new Date().toISOString(),
+          receipt_number: receiptNumber,
+          created_at: new Date().toISOString(),
+        })
+        .select()
+        .single();
+
+      if (insertError)
+        throw new Error(`Failed to insert installment: ${insertError.message}`);
+
+      toast.success("Installment added successfully!");
+      await fetchInvoices();
+      setEditInvoice((prev) => ({
+        ...prev,
+        amount_paid: newAmountPaid,
+        balance_due: newBalanceDue,
+      }));
+      return installmentData; // Return the new installment for use in modal
+    } catch (error) {
+      toast.error(error.message);
+      console.error("Error in handleAddInstallment:", error);
+    }
+  };
+
   const EditModal = ({ invoice, onClose }) => {
     const [installments, setInstallments] = useState([]);
+    const [formData, setFormData] = useState({
+      discount: invoice.discount || 0,
+      installment: "",
+      subtotal: invoice.subtotal || 0,
+      total: invoice.total || 0,
+      balanceDue: invoice.balance_due || 0,
+      amountPaid: invoice.amount_paid || 0,
+    });
 
     useEffect(() => {
       const fetchInstallments = async () => {
@@ -892,6 +696,7 @@ const InvoicesList = () => {
           .select("*")
           .eq("invoice_id", invoice.id)
           .order("payment_date", { ascending: false });
+
         if (error) {
           console.error("Error fetching installments:", error);
           return;
@@ -901,77 +706,223 @@ const InvoicesList = () => {
       fetchInstallments();
     }, [invoice.id]);
 
+    const handleDiscountChange = (e) => {
+      const discount = parseFloat(e.target.value) || 0;
+      const newTotal =
+        invoice.subtotal -
+        discount +
+        (invoice.tax || 0) +
+        (invoice.shipping || 0);
+      const newBalanceDue = newTotal - formData.amountPaid;
+
+      setFormData((prev) => ({
+        ...prev,
+        discount,
+        total: newTotal,
+        balanceDue: newBalanceDue,
+      }));
+    };
+
+    const handleInstallmentChange = (e) => {
+      setFormData((prev) => ({ ...prev, installment: e.target.value }));
+    };
+
+    const handleSaveChanges = async () => {
+      try {
+        const { error } = await supabase.from("invoices").upsert(
+          {
+            id: invoice.id,
+            invoice_number: invoice.invoice_number,
+            bill_to: invoice.bill_to,
+            due_date: invoice.due_date,
+            discount: formData.discount,
+            total: formData.total,
+            balance_due: formData.balanceDue,
+            amount_paid: formData.amountPaid,
+            subtotal: invoice.subtotal || 0,
+            ship_to: invoice.ship_to || "",
+            payment_terms: invoice.payment_terms || "",
+            po_number: invoice.po_number || "",
+            items: invoice.items || [],
+            notes: invoice.notes || "",
+            terms: invoice.terms || "",
+            tax: invoice.tax || 0,
+            shipping: invoice.shipping || 0,
+            created_at: invoice.created_at || new Date().toISOString(),
+          },
+          { onConflict: "id" }
+        );
+
+        if (error) throw error;
+        toast.success("Changes saved successfully!");
+        await fetchInvoices();
+        onClose();
+      } catch (error) {
+        toast.error("Failed to save changes: " + error.message);
+      }
+    };
+
+    const handleAddInstallmentClick = async () => {
+      const installmentData = await handleAddInstallment(
+        invoice.id,
+        formData.installment
+      );
+      if (installmentData) {
+        setFormData((prev) => ({
+          ...prev,
+          installment: "",
+          balanceDue: prev.balanceDue - parseFloat(formData.installment || 0),
+          amountPaid: prev.amountPaid + parseFloat(formData.installment || 0),
+        }));
+        setInstallments((prev) => [installmentData, ...prev]);
+      }
+    };
+
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div className="bg-white rounded-lg shadow-2xl w-1/2 p-6">
-          <h2 className="text-xl font-bold mb-4">
-            Edit Invoice: {invoice.invoice_number}
-          </h2>
-          <div className="mb-4">
-            <p>Total: ₹{invoice.total.toFixed(2)}</p>
-            <p>Amount Paid: ₹{invoice.amount_paid.toFixed(2)}</p>
-            <p>Balance Due: ₹{invoice.balance_due.toFixed(2)}</p>
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Add Installment
-            </label>
-            <input
-              type="number"
-              step="1000"
-              value={installmentAmount}
-              onChange={(e) => setInstallmentAmount(e.target.value)}
-              placeholder="Enter amount"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            />
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 m-4">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-xl font-semibold text-gray-800">
+              Edit Invoice #{invoice.invoice_number}
+            </h2>
             <button
-              onClick={() => handleAddInstallment(invoice.id)}
-              className="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
+              onClick={onClose}
+              className="p-2 hover:bg-gray-100 rounded-full"
             >
-              Add Payment
+              <X size={20} className="text-gray-600" />
             </button>
           </div>
-          <div className="mb-4">
-            <h3 className="font-semibold mb-2">Payment History</h3>
-            <table className="w-full">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="p-2 text-left">Date</th>
-                  <th className="p-2 text-right">Amount</th>
-                  <th className="p-2 text-right">Receipt #</th>
-                </tr>
-              </thead>
-              <tbody>
-                {installments.map((inst) => (
-                  <tr key={inst.id} className="border-b">
-                    <td className="p-2">
-                      {new Date(inst.payment_date).toLocaleDateString()}
-                    </td>
-                    <td className="p-2 text-right">
-                      ₹{inst.amount.toFixed(2)}
-                    </td>
-                    <td className="p-2 text-right">{inst.receipt_number}</td>
-                    {/* <td className="p-2 text-right">
-                      <button
-                        onClick={() =>
-                          setSelectedInstallment({ installment: inst, invoice })
-                        }
-                        className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                      >
-                        View Receipt
-                      </button>
-                    </td> */}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+
+          <div className="space-y-6">
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <p className="text-gray-600">Subtotal</p>
+                  <p className="font-medium">
+                    ₹{formData.subtotal.toLocaleString()}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-gray-600">Total</p>
+                  <p className="font-medium text-blue-600">
+                    ₹{formData.total.toLocaleString()}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-gray-600">Amount Paid</p>
+                  <p className="font-medium text-green-600">
+                    ₹{formData.amountPaid.toLocaleString()}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-gray-600">Balance Due</p>
+                  <p className="font-medium text-red-600">
+                    ₹{formData.balanceDue.toLocaleString()}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-2 text-sm text-gray-700">
+                <p>
+                  Installments Paid:{" "}
+                  <span className="font-medium">{installments.length}</span>
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="discount"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Discount Amount
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                  ₹
+                </span>
+                <input
+                  id="discount"
+                  type="number"
+                  value={formData.discount}
+                  onChange={handleDiscountChange}
+                  className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter discount"
+                  min="0"
+                  step="100"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="installment"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Add Installment
+              </label>
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                    ₹
+                  </span>
+                  <input
+                    id="installment"
+                    type="number"
+                    value={formData.installment}
+                    onChange={handleInstallmentChange}
+                    className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter amount"
+                    min="0"
+                    step="100"
+                  />
+                </div>
+                <button
+                  onClick={handleAddInstallmentClick}
+                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+
+            {installments.length > 0 && (
+              <div className="max-h-40 overflow-y-auto">
+                <h3 className="text-sm font-medium text-gray-700 mb-2">
+                  Installment History
+                </h3>
+                <div className="space-y-2">
+                  {installments.map((inst) => (
+                    <div
+                      key={inst.id}
+                      className="flex justify-between text-sm p-2 bg-gray-50 rounded-md"
+                    >
+                      <span>
+                        {new Date(inst.payment_date).toLocaleDateString()}
+                      </span>
+                      <span className="text-green-600">
+                        ₹{inst.amount.toLocaleString()}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
-          <button
-            onClick={onClose}
-            className="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300"
-          >
-            Close
-          </button>
+
+          <div className="mt-6 flex justify-end gap-3">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSaveChanges}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            >
+              Save Changes
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -1036,7 +987,6 @@ const InvoicesList = () => {
               <th className="p-3 text-right">Balance Due</th>
               <th className="p-3 text-right">WA</th>
               <th className="p-3 text-right">Email</th>
-
               <th className="p-3 text-right">Actions</th>
             </tr>
           </thead>
@@ -1051,11 +1001,13 @@ const InvoicesList = () => {
                 <td className="p-3">
                   {new Date(invoice.due_date).toLocaleDateString()}
                 </td>
-                <td className="p-3 text-right">₹{invoice.total.toFixed(2)}</td>
-                <td className="p-3 text-right text-red-600">
-                  ₹{invoice.balance_due.toFixed(2)}
+                <td className="p-3 text-right">
+                  ₹{invoice.total.toLocaleString()}
                 </td>
-                <td className="p-3 text-right ">
+                <td className="p-3 text-right text-red-600">
+                  ₹{invoice.balance_due.toLocaleString()}
+                </td>
+                <td className="p-3 text-right">
                   <a
                     href={`https://wa.me/+91${invoice.po_number}`}
                     target="_blank"
@@ -1064,7 +1016,7 @@ const InvoicesList = () => {
                     Message
                   </a>
                 </td>
-                <td className="p-3 text-right ">
+                <td className="p-3 text-right">
                   <a
                     href={`mailto:${invoice.ship_to}`}
                     target="_blank"
@@ -1073,7 +1025,6 @@ const InvoicesList = () => {
                     Mail
                   </a>
                 </td>
-
                 <td className="p-3 text-right space-x-2">
                   <button
                     onClick={() => setSelectedInvoice(invoice)}
