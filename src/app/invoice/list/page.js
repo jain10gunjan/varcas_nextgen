@@ -174,9 +174,7 @@ const InvoicesList = () => {
                       </p>
                       <p>
                         <strong>Date of Issue:</strong>{" "}
-                        {new Date(
-                          invoice.issue_date || "2025-03-26"
-                        ).toLocaleDateString()}
+                        {new Date(invoice.created_at.replace(' ', 'T') + 'Z').toLocaleString('en-US', { dateStyle: 'long', timeStyle: 'short' })}
                       </p>
                     </div>
                   </div>
